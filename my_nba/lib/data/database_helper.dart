@@ -1,10 +1,13 @@
 import 'dart:async';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:sqflite_common/sqlite_api.dart';
+import 'package:sqflite_common_ffi_web/sqflite_ffi_web.dart' as ffi;
 import 'package:my_nba/models/game_model.dart';
 import 'package:my_nba/models/team_model.dart';
 import 'package:my_nba/models/player_model.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 class DatabaseHelper {
   static final DatabaseHelper _instance = DatabaseHelper.internal();
@@ -23,11 +26,28 @@ class DatabaseHelper {
 
   DatabaseHelper.internal();
 
-  Future<Database> initDatabase() async {
-    var documentsDirectory = await getApplicationDocumentsDirectory();
-    var path = join(documentsDirectory.path, "my_nba.db");
+  // Cant use path_provider on Web
+  // Future<Database> initDatabase() async {
+  //   var documentsDirectory = await getApplicationDocumentsDirectory();
 
-    var db = await openDatabase(path, version: 1, onCreate: _onCreate);
+  //   var path = join(documentsDirectory.path, "my_nba.db");
+
+  //   var db = await openDatabase(path, version: 1, onCreate: _onCreate);
+  //   return db;
+  // }
+
+  Future<Database> initDatabase() async {
+    ffi.databaseFactoryFfiWeb;
+    var db = await ffi.databaseFactoryFfiWeb.openDatabase('my_nba.db');
+
+    int version = await db.getVersion();
+
+    if (version == 0) {
+      // The database is being created for the first time
+      _onCreate(db, 1);
+      // Set the version to 1
+      await db.setVersion(1);
+    }
     return db;
   }
 
@@ -63,6 +83,17 @@ class DatabaseHelper {
         time TEXT
       )
     ''');
+
+    await db.execute('''
+      CREATE TABLE scores (
+        playerID INTEGER,
+        gameID INTEGER,
+        pointsScored INTEGER,
+        PRIMARY KEY (playerID, gameID),
+        FOREIGN KEY (playerID) REFERENCES players(playerID),
+        FOREIGN KEY (gameID) REFERENCES games(gameID)
+      )
+    ''');
   }
 
   // Insert a player into the database
@@ -70,7 +101,7 @@ class DatabaseHelper {
     var dbClient = await db;
     return await dbClient.insert('players', player.toMap());
   }
-  
+
   // Insert a team into the database
   Future<int> insertTeam(Team team) async {
     var dbClient = await db;

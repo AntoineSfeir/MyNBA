@@ -23,6 +23,7 @@ class _PlayerPageState extends State<PlayerPage> {
     super.initState();
     _getPlayers();
   }
+
   // Method to retrieve players from the database
   // Method to retrieve players from the database
   Future<List<Player>> _getPlayers() async {
@@ -102,7 +103,7 @@ class _PlayerPageState extends State<PlayerPage> {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const CircularProgressIndicator();
                 } else if (snapshot.hasError) {
-                  return Text('Error: ${snapshot.error}');
+                  return SelectableText('Error: ${snapshot.error}');
                 } else {
                   List<Player>? players = snapshot.data;
                   return Expanded(
@@ -126,49 +127,49 @@ class _PlayerPageState extends State<PlayerPage> {
     );
   }
 
-void _insertPlayer() async {
-  String firstName = _firstNameController.text.trim();
-  String lastName = _lastNameController.text.trim();
-  String heightText = _heightController.text.trim();
-  String teamID = _teamIDController.text.trim();
-  String position = _positionController.text.trim();
-  String jerseyNumberText = _jerseyNumberController.text.trim();
+  void _insertPlayer() async {
+    String firstName = _firstNameController.text.trim();
+    String lastName = _lastNameController.text.trim();
+    String heightText = _heightController.text.trim();
+    String teamID = _teamIDController.text.trim();
+    String position = _positionController.text.trim();
+    String jerseyNumberText = _jerseyNumberController.text.trim();
 
-  if (firstName.isEmpty ||
-      lastName.isEmpty ||
-      heightText.isEmpty ||
-      teamID.isEmpty ||
-      position.isEmpty ||
-      jerseyNumberText.isEmpty) {
-    // Show an error message or handle the case where any field is empty
-    print('All fields must be filled');
-    return;
+    if (firstName.isEmpty ||
+        lastName.isEmpty ||
+        heightText.isEmpty ||
+        teamID.isEmpty ||
+        position.isEmpty ||
+        jerseyNumberText.isEmpty) {
+      // Show an error message or handle the case where any field is empty
+      print('All fields must be filled');
+      return;
+    }
+
+    try {
+      int height = int.parse(heightText);
+      int jerseyNumber = int.parse(jerseyNumberText);
+
+      // Generate a random player ID using uuid
+      String playerID = Uuid().v4();
+
+      Player newPlayer = Player(
+        playerID: int.parse(playerID),
+        firstName: firstName,
+        lastName: lastName,
+        height: height,
+        teamID: teamID,
+        position: position,
+        jerseyNumber: jerseyNumber,
+      );
+
+      int playerId = await _databaseHelper.insertPlayer(newPlayer);
+      print('Player inserted with ID: $playerId');
+    } catch (e) {
+      // Handle the case where parsing fails (non-numeric input)
+      print('Invalid input. Height and Jersey Number must be numeric.');
+    }
   }
-
-  try {
-    int height = int.parse(heightText);
-    int jerseyNumber = int.parse(jerseyNumberText);
-
-    // Generate a random player ID using uuid
-    String playerID = Uuid().v4();
-
-    Player newPlayer = Player(
-      playerID: int.parse(playerID),
-      firstName: firstName,
-      lastName: lastName,
-      height: height,
-      teamID: teamID,
-      position: position,
-      jerseyNumber: jerseyNumber,
-    );
-
-    int playerId = await _databaseHelper.insertPlayer(newPlayer);
-    print('Player inserted with ID: $playerId');
-  } catch (e) {
-    // Handle the case where parsing fails (non-numeric input)
-    print('Invalid input. Height and Jersey Number must be numeric.');
-  }
-}
 
   void _updatePlayer() async {
     // Assuming you have the player ID from somewhere (e.g., selected player)
