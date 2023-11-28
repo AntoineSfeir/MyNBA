@@ -32,24 +32,26 @@ class DatabaseHelper {
   }
 
   void _onCreate(Database db, int newVersion) async {
-    // Create tables for players, teams, and games
+    // Create the 'player' table
     await db.execute('''
-      CREATE TABLE player (
-        id INTEGER PRIMARY KEY,
-        name TEXT,
-        jerseyNumber INTEGER,
-        position TEXT
-      )
-    ''');
+  CREATE TABLE player (
+    playerID INTEGER PRIMARY KEY,
+    name TEXT,
+    jerseyNumber INTEGER,
+    position TEXT,
+    team TEXT,
+    height TEXT
+  )
+''');
 
+// Create the 'team' table
     await db.execute('''
-      CREATE TABLE team (
-        id INTEGER PRIMARY KEY,
-        name TEXT,
-        city TEXT,
-        abbreviation TEXT
-      )
-    ''');
+  CREATE TABLE team (
+    teamID TEXT PRIMARY KEY,
+    city TEXT,
+    homeCourt TEXT
+  )
+''');
 
     await db.execute('''
       CREATE TABLE game (
@@ -79,15 +81,15 @@ class DatabaseHelper {
   Future<List<Player>> getPlayers() async {
     var dbClient = await db;
     List<Map<String, dynamic>> maps = await dbClient
-        .query('player', columns: ['id', 'name', 'jerseyNumber', 'position']);
+        .query('player', columns: ['playerID', 'name', 'jerseyNumber', 'position']);
     return maps.map((map) => Player.fromMap(map)).toList();
   }
 
 // Get all teams from the database
   Future<List<Team>> getTeams() async {
     var dbClient = await db;
-    List<Map<String, dynamic>> maps = await dbClient
-        .query('team', columns: ['id', 'name', 'city', 'abbreviation']);
+    List<Map<String, dynamic>> maps =
+        await dbClient.query('team', columns: ['teamID', 'city', 'homeCourt']);
     return maps.map((map) => Team.fromMap(map)).toList();
   }
 

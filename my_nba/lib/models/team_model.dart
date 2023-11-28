@@ -1,28 +1,25 @@
 class Team {
-  int id;
-  String name;
+  String teamID;
   String city;
-  String abbreviation;
+  String homeCourt;
 
-  Team({required this.id, required this.name, required this.city, required this.abbreviation});
+  Team({required this.teamID, required this.city, required this.homeCourt});
 
   // Convert a Team object to a map for database operations
   Map<String, dynamic> toMap() {
     return {
-      'id': id,
-      'name': name,
+      'teamID': teamID,
       'city': city,
-      'abbreviation': abbreviation,
+      'homeCourt': homeCourt,
     };
   }
 
   // Create a Team object from a map received from the database
   factory Team.fromMap(Map<String, dynamic> map) {
     return Team(
-      id: map['id'],
-      name: map['name'],
+      teamID: map['name'],
       city: map['city'],
-      abbreviation: map['abbreviation'],
+      homeCourt: map['homeCourt'],
     );
   }
 }

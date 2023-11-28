@@ -32,8 +32,8 @@ class _MyHomePageState extends State<MyHomePage> {
   int _currentIndex = 0;
 
   final List<Widget> _pages = [
-    const PlayerPage(),
-    const TeamPage(),
+    PlayerPage(),
+    TeamPage(),
     const GamePage(),
   ];
 
@@ -53,7 +53,7 @@ class _MyHomePageState extends State<MyHomePage> {
         },
         items: const [
           BottomNavigationBarItem(
-            icon: Icon(Icons.sports_basketball),
+            icon: Icon(Icons.person),
             label: 'Players',
           ),
           BottomNavigationBarItem(
@@ -61,7 +61,7 @@ class _MyHomePageState extends State<MyHomePage> {
             label: 'Teams',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.sports_soccer),
+            icon: Icon(Icons.sports_basketball),
             label: 'Games',
           ),
         ],

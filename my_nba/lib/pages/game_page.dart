@@ -42,8 +42,9 @@ class _GamePageState extends State<GamePage> {
       itemCount: _games.length,
       itemBuilder: (context, index) {
         return ListTile(
-          title: Text('Game ${_games[index].id}'),
-          subtitle: Text('Date: ${_games[index].date} | Location: ${_games[index].location}'),
+          title: Text('Game ${_games[index].gameID}'),
+          subtitle: Text(
+              'Date: ${_games[index].date} | Court: ${_games[index].court}'),
         );
       },
     );
