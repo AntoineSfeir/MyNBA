@@ -1,0 +1,10 @@
+{
+    "sqltools.connections": [
+        {
+            "previewLimit": 50,
+            "driver": "SQLite",
+            "name": "my_nba",
+            "database": "${workspaceFolder:my_nba}/my_nba.db"
+        }
+    ]
+}
