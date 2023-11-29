@@ -5,6 +5,12 @@
             "driver": "SQLite",
             "name": "my_nba",
             "database": "${workspaceFolder:MyNBA}/my_nba/lib/assets/my_nba.db"
+        },
+        {
+            "previewLimit": 50,
+            "driver": "SQLite",
+            "name": "db",
+            "database": "${workspaceFolder:MyNBA}/my_nba/lib/assets/my_nba.db"
         }
     ]
 }

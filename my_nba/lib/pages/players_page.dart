@@ -3,6 +3,7 @@ import 'package:my_nba/data/player_db.dart';
 import 'package:my_nba/pages/home_page.dart';
 import 'package:my_nba/pages/player_page.dart';
 import 'package:my_nba/models/player_model.dart';
+import 'package:my_nba/pages/create_player_page.dart';
 
 class PlayersPage extends StatefulWidget {
   const PlayersPage({Key? key}) : super(key: key);
@@ -30,6 +31,18 @@ class _PlayersPageState extends State<PlayersPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => CreatePlayerPage()),
+          ).then((_) {
+            // Reload the players when returning from the create player page
+            fetchPlayers();
+          });
+        },
+        child: const Icon(Icons.add),
+      ),
       body: NestedScrollView(
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
           return <Widget>[
@@ -126,10 +139,6 @@ class _PlayersPageState extends State<PlayersPage> {
               IconButton(
                 icon: const Icon(Icons.person),
                 onPressed: () {
-                  // Navigator.pushReplacement(
-                  //   context,
-                  //   MaterialPageRoute(builder: (context) => PlayersPage()),
-                  // );
                 },
               ),
               IconButton(

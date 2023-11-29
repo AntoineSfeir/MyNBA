@@ -54,7 +54,7 @@ class _PlayerPageState extends State<PlayerPage> {
       appBar: AppBar(
         title: Text('${widget.player.firstName} ${widget.player.lastName}'),
         actions: [
-           IconButton(
+          IconButton(
             icon: const Icon(Icons.arrow_back),
             onPressed: () {
               Navigator.pushReplacement(
@@ -137,6 +137,17 @@ class _PlayerPageState extends State<PlayerPage> {
             TextButton(
               onPressed: () {
                 // Update player information here
+                _deletePlayer();
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => const PlayersPage()),
+                );
+              },
+              child: const Text('Delete Player'),
+            ),
+            TextButton(
+              onPressed: () {
+                // Update player information here
                 _updatePlayerInformation();
                 Navigator.of(context).pop();
               },
@@ -158,6 +169,10 @@ class _PlayerPageState extends State<PlayerPage> {
         controller: controller,
       ),
     );
+  }
+
+  void _deletePlayer() {
+    db.deletePlayer(widget.player.playerID);
   }
 
   void _updatePlayerInformation() {
