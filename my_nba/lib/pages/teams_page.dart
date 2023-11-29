@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:my_nba/data/team_db.dart';
 import 'package:my_nba/pages/home_page.dart';
+import 'package:my_nba/pages/team_page.dart';
 import 'package:my_nba/models/team_model.dart';
 import 'package:my_nba/pages/players_page.dart';
+import 'package:my_nba/pages/create_team_page.dart';
 
 class TeamsPage extends StatefulWidget {
   const TeamsPage({Key? key}) : super(key: key);
@@ -30,6 +32,18 @@ class _TeamsPageState extends State<TeamsPage> {
    @override
   Widget build(BuildContext context) {
     return Scaffold(
+       floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => CreateTeamPage()),
+          ).then((_) {
+            // Reload the players when returning from the create player page
+            fetchTeams();
+          });
+        },
+        child: const Icon(Icons.add),
+      ),
       body: NestedScrollView(
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
           return <Widget>[
@@ -91,9 +105,14 @@ class _TeamsPageState extends State<TeamsPage> {
                         // Add more player details as needed
                       ],
                     ),
-                    // onTap: () {
-                    //   // Handle onTap event for individual player
-                    // },
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => TeamPage(team: team),
+                        ),
+                      );
+                    },
                   );
                 },
               );

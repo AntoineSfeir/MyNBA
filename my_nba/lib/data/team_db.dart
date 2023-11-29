@@ -16,7 +16,7 @@ class TeamDb {
       ''');
 
     await database.execute('''
-      INSERT INTO teams (teamID, city, homeCourt, division)VALUES
+      INSERT INTO teams (teamID, city, homecourt, division)VALUES
         ('Rockets', 'Houston', 'Rocket Arena', 'Division Gamma'),
         ('Dragons', 'Los Angeles', 'Dragon Court', 'Division Gamma'),
         ('Thunder', 'Oklahoma City', 'Thunder Dome', 'Division Gamma'),
