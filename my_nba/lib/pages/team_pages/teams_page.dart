@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:my_nba/data/team_db.dart';
 import 'package:my_nba/pages/home_page.dart';
-import 'package:my_nba/pages/team_page.dart';
 import 'package:my_nba/models/team_model.dart';
-import 'package:my_nba/pages/players_page.dart';
-import 'package:my_nba/pages/create_team_page.dart';
+import 'package:my_nba/pages/team_pages/team_page.dart';
+import 'package:my_nba/pages/player_pages/players_page.dart';
+import 'package:my_nba/pages/team_pages/create_team_page.dart';
 
 class TeamsPage extends StatefulWidget {
   const TeamsPage({Key? key}) : super(key: key);

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_nba/data/player_db.dart';
-import 'package:my_nba/pages/players_page.dart';
 import 'package:my_nba/models/player_model.dart';
+import 'package:my_nba/pages/player_pages/players_page.dart';
 
 class PlayerPage extends StatefulWidget {
   const PlayerPage({Key? key, required this.player}) : super(key: key);

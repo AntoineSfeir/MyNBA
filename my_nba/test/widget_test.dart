@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:my_nba/pages/players_page.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:my_nba/pages/player_pages/players_page.dart';
 // This is a basic Flutter widget test.
 //
 // To perform an interaction with a widget in your test, use the WidgetTester

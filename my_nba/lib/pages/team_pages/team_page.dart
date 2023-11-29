@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_nba/data/team_db.dart';
-import 'package:my_nba/pages/teams_page.dart';
 import 'package:my_nba/models/team_model.dart';
+import 'package:my_nba/pages/team_pages/teams_page.dart';
 
 class TeamPage extends StatefulWidget {
   const TeamPage({super.key, required this.team});
