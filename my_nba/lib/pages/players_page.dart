@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_nba/data/player_db.dart';
+import 'package:my_nba/pages/home_page.dart';
+import 'package:my_nba/pages/player_page.dart';
 import 'package:my_nba/models/player_model.dart';
 
 class PlayersPage extends StatefulWidget {
@@ -32,7 +34,7 @@ class _PlayersPageState extends State<PlayersPage> {
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
           return <Widget>[
             SliverAppBar(
-              expandedHeight: 400.0,
+              expandedHeight: 450.0,
               floating: false,
               pinned: true,
               stretch: true,
@@ -69,9 +71,12 @@ class _PlayersPageState extends State<PlayersPage> {
                 itemCount: snapshot.data!.length,
                 itemBuilder: (context, index) {
                   Player player = snapshot.data![index];
+                  String _firstName = player.firstName;
+                  String _lastName = player.lastName;
+                  String _team = player.teamID;
                   return ListTile(
                     title: Text(
-                      "${player.firstName} ${player.lastName}",
+                      "$_firstName $_lastName",
                       style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 16.0,
@@ -81,7 +86,7 @@ class _PlayersPageState extends State<PlayersPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Team: ${player.teamID}",
+                          "Team: ${_team}",
                           style: const TextStyle(
                             color: Colors.grey,
                           ),
@@ -89,9 +94,19 @@ class _PlayersPageState extends State<PlayersPage> {
                         // Add more player details as needed
                       ],
                     ),
-                    // onTap: () {
-                    //   // Handle onTap event for individual player
-                    // },
+                    onTap: () async {
+                      Player? updatedPlayer = await Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => PlayerPage(player: player),
+                        ),
+                      );
+
+                      // If updatedPlayer is not null, update the player in the list
+                      if (updatedPlayer != null) {
+                        updatePlayerInList(updatedPlayer);
+                      }
+                    },
                   );
                 },
               );
@@ -99,6 +114,57 @@ class _PlayersPageState extends State<PlayersPage> {
           },
         ),
       ),
+       bottomNavigationBar: BottomAppBar(
+          child: Container(
+            height: 50.0,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: <Widget>[
+                 IconButton(
+                  icon: const Icon(Icons.home_rounded),
+                  onPressed: () {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (context) => const HomePage()),
+                    );
+                  },
+                ),
+                IconButton(
+                  icon: Icon(Icons.person),
+                  onPressed: () {
+                    // Navigator.pushReplacement(
+                    //   context,
+                    //   MaterialPageRoute(builder: (context) => PlayersPage()),
+                    // );
+                  },
+                ),
+                IconButton(
+                  icon: Icon(Icons.group),
+                  onPressed: () {
+                    // Navigator.pushReplacement(
+                    //   context,
+                    //   MaterialPageRoute(builder: (context) => TeamsPage()),
+                    // );
+                  },
+                ),
+              ],
+            ),
+          ),
+        ),
     );
+  }
+
+  void updatePlayerInList(Player updatedPlayer) async {
+    List<Player> players = await futurePlayers!;
+
+    setState(() {
+      int index = players
+          .indexWhere((player) => player.playerID == updatedPlayer.playerID);
+
+      if (index != -1) {
+        players[index] = updatedPlayer;
+        futurePlayers = Future.value(players);
+      }
+    });
   }
 }

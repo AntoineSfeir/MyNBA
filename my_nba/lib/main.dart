@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_nba/pages/players_page.dart';
+import 'package:my_nba/pages/home_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: customBlack,
       ),
-      home: const PlayersPage(),
+      home: const HomePage(),
     );
   }
 }
