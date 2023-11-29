@@ -108,7 +108,6 @@ class PlayerDb {
     final Database database = await DatabaseService().getDataBase();
     //await database.delete('players', where: 'playerID = ?', whereArgs: ['64fdf0ee-5216-4aa2-86c0-87ddef5a7278']);
     final players = await database.rawQuery('SELECT * FROM players');
-    print('Players from database: $players');
     return players.map((player) => Player.fromSqfliteDatbase(player)).toList();
   }
 

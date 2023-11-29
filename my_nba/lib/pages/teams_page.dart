@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:my_nba/data/team_db.dart';
+import 'package:my_nba/pages/home_page.dart';
 import 'package:my_nba/models/team_model.dart';
+import 'package:my_nba/pages/players_page.dart';
 
 class TeamsPage extends StatefulWidget {
   const TeamsPage({Key? key}) : super(key: key);
@@ -97,6 +99,40 @@ class _TeamsPageState extends State<TeamsPage> {
               );
             }
           },
+        ),
+      ),
+       bottomNavigationBar: BottomAppBar(
+        child: SizedBox(
+          height: 50.0,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: <Widget>[
+              IconButton(
+                icon: const Icon(Icons.home_rounded),
+                onPressed: () {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (context) => const HomePage()),
+                  );
+                },
+              ),
+              IconButton(
+                icon: const Icon(Icons.person),
+                onPressed: () {
+                   Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (context) => const PlayersPage()),
+                  );
+                },
+              ),
+              IconButton(
+                icon: const Icon(Icons.group),
+                onPressed: () {
+        
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );

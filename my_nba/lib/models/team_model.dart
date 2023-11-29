@@ -1,13 +1,13 @@
 class Team{
 final String teamID;
-final String City;
+final String city;
 final String homeCourt;
 final String division;
 
 
 Team(
     {required this.teamID,
-     required this.City,
+     required this.city,
      required this.homeCourt,
     required this.division,
     });
@@ -15,7 +15,7 @@ Team(
     factory Team.fromSqfliteDatbase(Map<String, dynamic> data) {
       return Team(
         teamID: data['teamID'],
-        City: data['City'],
+        city: data['city'],
         homeCourt: data['homecourt'],
         division: data['division'],
       );
