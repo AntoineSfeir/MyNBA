@@ -1,24 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:my_nba/data/team_db.dart';
-import 'package:my_nba/data/team_db.dart';
 import 'package:my_nba/pages/teams_page.dart';
 import 'package:my_nba/models/team_model.dart';
 
 class TeamPage extends StatefulWidget {
+  const TeamPage({Key? key, required this.team});
+
   final Team team;
 
-  TeamPage({required this.team});
-
   @override
-  _TeamPageState createState() => _TeamPageState();
+  State<TeamPage> createState() => _TeamPageState();
 }
 
 class _TeamPageState extends State<TeamPage> {
-  TeamDb db = TeamDb();
   late TextEditingController cityController;
   late TextEditingController homecourtController;
   late TextEditingController divisionController;
   late TextEditingController teamIdController;
+
+  TeamDb db = TeamDb();
 
   String teamName = "";
   String city = '';
@@ -42,11 +42,30 @@ class _TeamPageState extends State<TeamPage> {
   }
 
   @override
+  void dispose() {
+    // Clean up the controller when the widget is disposed.
+    teamIdController.dispose();
+    cityController.dispose();
+    homecourtController.dispose();
+    divisionController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Team Details'),
         actions: [
+          IconButton(
+            icon: const Icon(Icons.save),
+            onPressed: () {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => const TeamsPage()),
+              );
+            },
+          ),
           IconButton(
             icon: const Icon(Icons.edit),
             onPressed: () {
@@ -55,17 +74,14 @@ class _TeamPageState extends State<TeamPage> {
           ),
         ],
       ),
-      body: Padding(
+      body: ListView(
         padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _buildDetailRow('Team Name', teamName),
-            _buildDetailRow('City', widget.team.city),
-            _buildDetailRow('Homecourt', widget.team.homecourt),
-            _buildDetailRow('Division', widget.team.division),
-          ],
-        ),
+        children: <Widget>[
+          _buildDetailRow('Team Name', teamName),
+          _buildDetailRow('City', widget.team.city),
+          _buildDetailRow('Homecourt', widget.team.homecourt),
+          _buildDetailRow('Division', widget.team.division),
+        ],
       ),
     );
   }
@@ -159,7 +175,6 @@ class _TeamPageState extends State<TeamPage> {
 
   void _updateTeamInformation() {
     // Save the updated team information
-    // You can replace this with your logic to update the team in the database
     setState(() {
       teamName = teamIdController.text;
       city = cityController.text;
@@ -168,15 +183,6 @@ class _TeamPageState extends State<TeamPage> {
     });
 
     db.updateTeam(
-        teamID: teamIdController.text,
-        city: cityController.text,
-        homecourt: homecourtController.text,
-        division: divisionController.text);
-
-    print('Updated team information');
-    print('Team Name: ${teamIdController.text}');
-    print('City: ${cityController.text}');
-    print('Homecourt: ${homecourtController.text}');
-    print('Division: ${divisionController.text}');
+        teamID: teamName, city: city, homecourt: homecourt, division: division);
   }
 }

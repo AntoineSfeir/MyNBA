@@ -19,25 +19,26 @@ class _PlayerPageState extends State<PlayerPage> {
   TextEditingController teamController = TextEditingController();
   TextEditingController positionController = TextEditingController();
   TextEditingController jerseyNumberController = TextEditingController();
+  
   PlayerDb db = PlayerDb();
 
-  String _firstName = '';
-  String _lastName = '';
-  int _height = 0;
-  String _team = '';
-  String _position = '';
-  int _jerseyNumber = 0;
+  String firstName = '';
+  String lastName = '';
+  int height = 0;
+  String team = '';
+  String postition = '';
+  int jerseyNumber = 0;
 
   @override
   void initState() {
     super.initState();
 
-    _firstName = widget.player.firstName;
-    _lastName = widget.player.lastName;
-    _height = widget.player.height;
-    _team = widget.player.teamID;
-    _position = widget.player.position;
-    _jerseyNumber = widget.player.jerseyNumber;
+    firstName = widget.player.firstName;
+    lastName = widget.player.lastName;
+    height = widget.player.height;
+    team = widget.player.teamID;
+    postition = widget.player.position;
+    jerseyNumber = widget.player.jerseyNumber;
 
     // Initialize the text controllers with the player's current information
     firstNameController.text = widget.player.firstName;
@@ -49,13 +50,25 @@ class _PlayerPageState extends State<PlayerPage> {
   }
 
   @override
+  void dispose() {
+    // Clean up the controller when the widget is disposed.
+    firstNameController.dispose();
+    lastNameController.dispose();
+    heightController.dispose();
+    teamController.dispose();
+    positionController.dispose();
+    jerseyNumberController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('${widget.player.firstName} ${widget.player.lastName}'),
         actions: [
           IconButton(
-            icon: const Icon(Icons.arrow_back),
+            icon: const Icon(Icons.save),
             onPressed: () {
               Navigator.pushReplacement(
                 context,
@@ -74,12 +87,12 @@ class _PlayerPageState extends State<PlayerPage> {
       body: ListView(
         padding: const EdgeInsets.all(16.0),
         children: <Widget>[
-          _buildDetailRow('First Name', _firstName),
-          _buildDetailRow('Last Name', _lastName),
-          _buildDetailRow('Height', '$_height inches'),
-          _buildDetailRow('Team', _team),
-          _buildDetailRow('Position', _position),
-          _buildDetailRow('Jersey Number', _jerseyNumber.toString()),
+          _buildDetailRow('First Name', firstName),
+          _buildDetailRow('Last Name', lastName),
+          _buildDetailRow('Height', '$height inches'),
+          _buildDetailRow('Team', team),
+          _buildDetailRow('Position', postition),
+          _buildDetailRow('Jersey Number', jerseyNumber.toString()),
         ],
       ),
     );
@@ -178,12 +191,12 @@ class _PlayerPageState extends State<PlayerPage> {
   void _updatePlayerInformation() {
     setState(() {
       // Update the player information
-      _firstName = firstNameController.text;
-      _lastName = lastNameController.text;
-      _height = int.parse(heightController.text);
-      _team = teamController.text;
-      _position = positionController.text;
-      _jerseyNumber = int.parse(jerseyNumberController.text);
+      firstName = firstNameController.text;
+      lastName = lastNameController.text;
+      height = int.parse(heightController.text);
+      team = teamController.text;
+      postition = positionController.text;
+      jerseyNumber = int.parse(jerseyNumberController.text);
     });
 
     db.updatePlayer(

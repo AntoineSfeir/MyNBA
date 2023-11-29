@@ -85,12 +85,12 @@ class _PlayersPageState extends State<PlayersPage> {
                 itemCount: snapshot.data!.length,
                 itemBuilder: (context, index) {
                   Player player = snapshot.data![index];
-                  String _firstName = player.firstName;
-                  String _lastName = player.lastName;
-                  String _team = player.teamID;
+                  String firstName = player.firstName;
+                  String lastName = player.lastName;
+                  String team = player.teamID;
                   return ListTile(
                     title: Text(
-                      "$_firstName $_lastName",
+                      "$firstName $lastName",
                       style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 16.0,
@@ -100,7 +100,7 @@ class _PlayersPageState extends State<PlayersPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Team: $_team",
+                          "Team: $team",
                           style: const TextStyle(
                             color: Colors.grey,
                           ),

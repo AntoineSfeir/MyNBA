@@ -29,10 +29,10 @@ class _TeamsPageState extends State<TeamsPage> {
     });
   }
 
-   @override
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-       floatingActionButton: FloatingActionButton(
+      floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.push(
             context,
@@ -85,9 +85,11 @@ class _TeamsPageState extends State<TeamsPage> {
                 itemCount: snapshot.data!.length,
                 itemBuilder: (context, index) {
                   Team team = snapshot.data![index];
+                  String teamName = team.teamID;
+                  String city = team.city;
                   return ListTile(
                     title: Text(
-                      team.teamID,
+                      teamName,
                       style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 16.0,
@@ -97,7 +99,7 @@ class _TeamsPageState extends State<TeamsPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "City: ${team.city}",
+                          "City: $city",
                           style: const TextStyle(
                             color: Colors.grey,
                           ),
@@ -120,7 +122,7 @@ class _TeamsPageState extends State<TeamsPage> {
           },
         ),
       ),
-       bottomNavigationBar: BottomAppBar(
+      bottomNavigationBar: BottomAppBar(
         child: SizedBox(
           height: 50.0,
           child: Row(
@@ -138,17 +140,16 @@ class _TeamsPageState extends State<TeamsPage> {
               IconButton(
                 icon: const Icon(Icons.person),
                 onPressed: () {
-                   Navigator.pushReplacement(
+                  Navigator.pushReplacement(
                     context,
-                    MaterialPageRoute(builder: (context) => const PlayersPage()),
+                    MaterialPageRoute(
+                        builder: (context) => const PlayersPage()),
                   );
                 },
               ),
               IconButton(
                 icon: const Icon(Icons.group),
-                onPressed: () {
-        
-                },
+                onPressed: () {},
               ),
             ],
           ),
@@ -156,6 +157,4 @@ class _TeamsPageState extends State<TeamsPage> {
       ),
     );
   }
-
-
 }

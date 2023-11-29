@@ -6,7 +6,7 @@ class TeamDb {
   final teamTableName = "teams";
 
   Future<void> createTeamTable(Database database) async {
-        await database.execute('''
+    await database.execute('''
         CREATE TABLE teams (
           teamID VARCHAR(50) PRIMARY KEY,
           city VARCHAR(50),
@@ -67,6 +67,7 @@ class TeamDb {
       required homecourt,
       required division}) async {
     final Database database = await DatabaseService().getDataBase();
+    print("Update team: $teamID");
     return await database.update(
         teamTableName,
         {
