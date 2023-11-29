@@ -44,7 +44,11 @@ class _PlayersPageState extends State<PlayersPage> {
               fetchPlayers();
             });
           },
-          child: const Icon(Icons.add),
+          backgroundColor: Colors.green,
+          child: const Icon(
+            Icons.person_add,
+            color: Colors.black,
+          ),
         ),
         body: NestedScrollView(
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {

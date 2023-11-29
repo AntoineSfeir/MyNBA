@@ -44,7 +44,11 @@ class _TeamsPageState extends State<TeamsPage> {
               fetchTeams();
             });
           },
-          child: const Icon(Icons.add),
+          backgroundColor: Colors.green,
+          child: const Icon(
+            Icons.group_add,
+            color: Colors.black,
+          ),
         ),
         body: NestedScrollView(
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
@@ -54,7 +58,7 @@ class _TeamsPageState extends State<TeamsPage> {
                 floating: false,
                 pinned: true,
                 stretch: true,
-                 backgroundColor: Colors.black,
+                backgroundColor: Colors.black,
                 flexibleSpace: FlexibleSpaceBar(
                     centerTitle: true,
                     collapseMode: CollapseMode.parallax,
