@@ -1,3 +1,4 @@
+import 'package:my_nba/data/team_db.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:my_nba/data/player_db.dart';
@@ -34,6 +35,8 @@ class DatabaseService {
     return database;
   }
 
-  Future<void> create(Database database, int version) async =>
+  Future<void> create(Database database, int version) async {
       await PlayerDb().createPlayerTable(database);
+      await TeamDb().createTeamTable(database);
+  }
 }

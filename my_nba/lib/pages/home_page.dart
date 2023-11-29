@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_nba/pages/players_page.dart';
+import 'package:my_nba/pages/teams_page.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -60,10 +61,10 @@ class HomePage extends StatelessWidget {
                 IconButton(
                   icon: const Icon(Icons.group),
                   onPressed: () {
-                    // Navigator.pushReplacement(
-                    //   context,
-                    //   MaterialPageRoute(builder: (context) => TeamsPage()),
-                    // );
+                     Navigator.pushReplacement(
+                       context,
+                       MaterialPageRoute(builder: (context) => TeamsPage()),
+                     );
                   },
                 ),
               ],
