@@ -73,7 +73,7 @@ class _TeamsPageState extends State<TeamsPage> {
                   Team team = snapshot.data![index];
                   return ListTile(
                     title: Text(
-                      "${team.teamID}",
+                      team.teamID,
                       style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 16.0,
@@ -83,7 +83,7 @@ class _TeamsPageState extends State<TeamsPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Team: ${team.teamID}",
+                          "City: ${team.city}",
                           style: const TextStyle(
                             color: Colors.grey,
                           ),

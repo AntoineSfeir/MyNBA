@@ -1,6 +1,6 @@
-import 'package:my_nba/data/team_db.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:my_nba/data/team_db.dart';
 import 'package:my_nba/data/player_db.dart';
 
 class DatabaseService {
@@ -28,7 +28,7 @@ class DatabaseService {
     final path = await getFullPath();
     var database = await openDatabase(
       path,
-      version: 1,
+      version: 2,
       onCreate: create,
       singleInstance: true,
     );
@@ -38,5 +38,6 @@ class DatabaseService {
   Future<void> create(Database database, int version) async {
       await PlayerDb().createPlayerTable(database);
       await TeamDb().createTeamTable(database);
+     print('Database tables created.');
   }
 }

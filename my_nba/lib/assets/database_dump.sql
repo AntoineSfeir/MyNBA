@@ -74,12 +74,12 @@ INSERT INTO players (playerID, firstName, lastName, height, teamID, position, je
 
 CREATE TABLE teams (
     teamID VARCHAR(50) PRIMARY KEY,
-    City VARCHAR(50),
+    city VARCHAR(50),
     homeCourt VARCHAR(50),
     division VARCHAR(50)
 );
 
-INSERT INTO teams (teamID, City, homeCourt, division) VALUES
+INSERT INTO teams (teamID, city, homeCourt, division) VALUES
     ('Rockets', 'Houston', 'Rocket Arena', 'Division 1'),
     ('Dragons', 'Los Angeles', 'Dragon Court', 'Division 1'),
     ('Thunder', 'Oklahoma City', 'Thunder Dome', 'Division 1'),
@@ -87,7 +87,7 @@ INSERT INTO teams (teamID, City, homeCourt, division) VALUES
     ('Eagles', 'Philadelphia', 'Eagle Nest', 'Division 1');
 
 
-INSERT INTO teams (teamID, City, homeCourt, division) VALUES
+INSERT INTO teams (teamID, city, homeCourt, division) VALUES
     ('Panthers', 'Miami', 'Panther Park', 'Division 2'),
     ('Spartans', 'New York', 'Spartan Coliseum', 'Division 2'),
     ('Blizzards', 'Denver', 'Blizzard Arena', 'Division 2'),

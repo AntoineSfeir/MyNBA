@@ -106,15 +106,14 @@ class PlayerDb {
 
   Future<List<Player>> fetchAllPlayers() async {
     final Database database = await DatabaseService().getDataBase();
-    //await database.delete('players', where: 'playerID = ?', whereArgs: ['64fdf0ee-5216-4aa2-86c0-87ddef5a7278']);
     final players = await database.rawQuery('SELECT * FROM players');
     return players.map((player) => Player.fromSqfliteDatbase(player)).toList();
   }
 
   Future<Player> fetchPlayerByID(int playerID) async {
     final Database database = await DatabaseService().getDataBase();
-    final player = await database.rawQuery(
-        'SELECT * FROM $playerTableName WHERE playerID = $playerID');
+    final player = await database
+        .rawQuery('SELECT * FROM $playerTableName WHERE playerID = $playerID');
     return Player.fromSqfliteDatbase(player.first);
   }
 
