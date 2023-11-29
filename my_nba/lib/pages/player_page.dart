@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_nba/data/player_db.dart';
+import 'package:my_nba/pages/players_page.dart';
 import 'package:my_nba/models/player_model.dart';
 
 class PlayerPage extends StatefulWidget {
@@ -38,7 +39,6 @@ class _PlayerPageState extends State<PlayerPage> {
     _position = widget.player.position;
     _jerseyNumber = widget.player.jerseyNumber;
 
-
     // Initialize the text controllers with the player's current information
     firstNameController.text = widget.player.firstName;
     lastNameController.text = widget.player.lastName;
@@ -46,8 +46,6 @@ class _PlayerPageState extends State<PlayerPage> {
     teamController.text = widget.player.teamID;
     positionController.text = widget.player.position;
     jerseyNumberController.text = widget.player.jerseyNumber.toString();
-
-
   }
 
   @override
@@ -56,6 +54,15 @@ class _PlayerPageState extends State<PlayerPage> {
       appBar: AppBar(
         title: Text('${widget.player.firstName} ${widget.player.lastName}'),
         actions: [
+           IconButton(
+            icon: const Icon(Icons.arrow_back),
+            onPressed: () {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => const PlayersPage()),
+              );
+            },
+          ),
           IconButton(
             icon: const Icon(Icons.edit),
             onPressed: () {
@@ -72,8 +79,7 @@ class _PlayerPageState extends State<PlayerPage> {
           _buildDetailRow('Height', '$_height inches'),
           _buildDetailRow('Team', _team),
           _buildDetailRow('Position', _position),
-          _buildDetailRow(
-              'Jersey Number', _jerseyNumber.toString()),
+          _buildDetailRow('Jersey Number', _jerseyNumber.toString()),
         ],
       ),
     );
@@ -156,14 +162,15 @@ class _PlayerPageState extends State<PlayerPage> {
 
   void _updatePlayerInformation() {
     setState(() {
-    // Update the player information
-    _firstName = firstNameController.text;
-    _lastName = lastNameController.text;
-    _height = int.parse(heightController.text);
-    _team = teamController.text;
-    _position = positionController.text;
-    _jerseyNumber = int.parse(jerseyNumberController.text);
-  });
+      // Update the player information
+      _firstName = firstNameController.text;
+      _lastName = lastNameController.text;
+      _height = int.parse(heightController.text);
+      _team = teamController.text;
+      _position = positionController.text;
+      _jerseyNumber = int.parse(jerseyNumberController.text);
+    });
+
     db.updatePlayer(
       playerID: widget.player.playerID,
       firstName: firstNameController.text,

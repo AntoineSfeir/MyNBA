@@ -86,7 +86,7 @@ class _PlayersPageState extends State<PlayersPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Team: ${_team}",
+                          "Team: $_team",
                           style: const TextStyle(
                             color: Colors.grey,
                           ),
@@ -94,18 +94,12 @@ class _PlayersPageState extends State<PlayersPage> {
                         // Add more player details as needed
                       ],
                     ),
-                    onTap: () async {
-                      Player? updatedPlayer = await Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => PlayerPage(player: player),
-                        ),
-                      );
-
-                      // If updatedPlayer is not null, update the player in the list
-                      if (updatedPlayer != null) {
-                        updatePlayerInList(updatedPlayer);
-                      }
+                    onTap: () {
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => PlayerPage(player: player),
+                          ));
                     },
                   );
                 },
@@ -114,57 +108,43 @@ class _PlayersPageState extends State<PlayersPage> {
           },
         ),
       ),
-       bottomNavigationBar: BottomAppBar(
-          child: Container(
-            height: 50.0,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: <Widget>[
-                 IconButton(
-                  icon: const Icon(Icons.home_rounded),
-                  onPressed: () {
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(builder: (context) => const HomePage()),
-                    );
-                  },
-                ),
-                IconButton(
-                  icon: Icon(Icons.person),
-                  onPressed: () {
-                    // Navigator.pushReplacement(
-                    //   context,
-                    //   MaterialPageRoute(builder: (context) => PlayersPage()),
-                    // );
-                  },
-                ),
-                IconButton(
-                  icon: Icon(Icons.group),
-                  onPressed: () {
-                    // Navigator.pushReplacement(
-                    //   context,
-                    //   MaterialPageRoute(builder: (context) => TeamsPage()),
-                    // );
-                  },
-                ),
-              ],
-            ),
+      bottomNavigationBar: BottomAppBar(
+        child: SizedBox(
+          height: 50.0,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: <Widget>[
+              IconButton(
+                icon: const Icon(Icons.home_rounded),
+                onPressed: () {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (context) => const HomePage()),
+                  );
+                },
+              ),
+              IconButton(
+                icon: const Icon(Icons.person),
+                onPressed: () {
+                  // Navigator.pushReplacement(
+                  //   context,
+                  //   MaterialPageRoute(builder: (context) => PlayersPage()),
+                  // );
+                },
+              ),
+              IconButton(
+                icon: const Icon(Icons.group),
+                onPressed: () {
+                  // Navigator.pushReplacement(
+                  //   context,
+                  //   MaterialPageRoute(builder: (context) => TeamsPage()),
+                  // );
+                },
+              ),
+            ],
           ),
         ),
+      ),
     );
-  }
-
-  void updatePlayerInList(Player updatedPlayer) async {
-    List<Player> players = await futurePlayers!;
-
-    setState(() {
-      int index = players
-          .indexWhere((player) => player.playerID == updatedPlayer.playerID);
-
-      if (index != -1) {
-        players[index] = updatedPlayer;
-        futurePlayers = Future.value(players);
-      }
-    });
   }
 }
