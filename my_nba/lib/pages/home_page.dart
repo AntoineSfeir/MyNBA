@@ -80,7 +80,7 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
         bottomNavigationBar: BottomAppBar(
-          child: Container(
+          child: SizedBox(
             height: 50.0,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,

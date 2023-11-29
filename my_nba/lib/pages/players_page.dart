@@ -38,7 +38,7 @@ class _PlayersPageState extends State<PlayersPage> {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => CreatePlayerPage()),
+              MaterialPageRoute(builder: (context) => const CreatePlayerPage()),
             ).then((_) {
               // Reload the players when returning from the create player page
               fetchPlayers();

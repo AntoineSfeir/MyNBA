@@ -68,7 +68,7 @@ class _PlayerPageState extends State<PlayerPage> {
       home: Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.black,
-          title: Text('Player Details'),
+          title: const Text('Player Details'),
           actions: [
             IconButton(
               icon: const Icon(Icons.arrow_back),

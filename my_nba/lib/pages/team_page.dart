@@ -4,7 +4,7 @@ import 'package:my_nba/pages/teams_page.dart';
 import 'package:my_nba/models/team_model.dart';
 
 class TeamPage extends StatefulWidget {
-  const TeamPage({Key? key, required this.team});
+  const TeamPage({super.key, required this.team});
 
   final Team team;
 
@@ -58,7 +58,7 @@ class _TeamPageState extends State<TeamPage> {
       home: Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.black,
-          title: Text('Team Details'),
+          title: const Text('Team Details'),
           actions: [
             IconButton(
               icon: const Icon(Icons.arrow_back),

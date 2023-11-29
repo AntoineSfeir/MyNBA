@@ -4,6 +4,8 @@ import 'package:my_nba/data/player_db.dart';
 
 
 class CreatePlayerPage extends StatefulWidget {
+  const CreatePlayerPage({super.key});
+
   @override
   _CreatePlayerPageState createState() => _CreatePlayerPageState();
 }

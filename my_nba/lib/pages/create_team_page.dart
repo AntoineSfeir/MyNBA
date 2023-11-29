@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:my_nba/data/team_db.dart';
 
 class CreateTeamPage extends StatefulWidget {
+  const CreateTeamPage({super.key});
+
   @override
   _CreateTeamPageState createState() => _CreateTeamPageState();
 }
