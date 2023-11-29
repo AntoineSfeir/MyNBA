@@ -53,35 +53,39 @@ class _TeamPageState extends State<TeamPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Team Details'),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.save),
-            onPressed: () {
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (context) => const TeamsPage()),
-              );
-            },
-          ),
-          IconButton(
-            icon: const Icon(Icons.edit),
-            onPressed: () {
-              _showEditDialog(context);
-            },
-          ),
-        ],
-      ),
-      body: ListView(
-        padding: const EdgeInsets.all(16.0),
-        children: <Widget>[
-          _buildDetailRow('Team Name', teamName),
-          _buildDetailRow('City', widget.team.city),
-          _buildDetailRow('Homecourt', widget.team.homecourt),
-          _buildDetailRow('Division', widget.team.division),
-        ],
+    return MaterialApp(
+      debugShowCheckedModeBanner: false, // Remove the debug banner
+      home: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.black,
+          title: Text('Team Details'),
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.arrow_back),
+              onPressed: () {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => const TeamsPage()),
+                );
+              },
+            ),
+            IconButton(
+              icon: const Icon(Icons.edit),
+              onPressed: () {
+                _showEditDialog(context);
+              },
+            ),
+          ],
+        ),
+        body: ListView(
+          padding: const EdgeInsets.all(16.0),
+          children: <Widget>[
+            _buildDetailRow('Team Name', teamName),
+            _buildDetailRow('City', widget.team.city),
+            _buildDetailRow('Homecourt', widget.team.homecourt),
+            _buildDetailRow('Division', widget.team.division),
+          ],
+        ),
       ),
     );
   }

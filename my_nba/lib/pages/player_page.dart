@@ -19,7 +19,7 @@ class _PlayerPageState extends State<PlayerPage> {
   TextEditingController teamController = TextEditingController();
   TextEditingController positionController = TextEditingController();
   TextEditingController jerseyNumberController = TextEditingController();
-  
+
   PlayerDb db = PlayerDb();
 
   String firstName = '';
@@ -63,37 +63,41 @@ class _PlayerPageState extends State<PlayerPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('${widget.player.firstName} ${widget.player.lastName}'),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.save),
-            onPressed: () {
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (context) => const PlayersPage()),
-              );
-            },
-          ),
-          IconButton(
-            icon: const Icon(Icons.edit),
-            onPressed: () {
-              _showEditDialog(context);
-            },
-          ),
-        ],
-      ),
-      body: ListView(
-        padding: const EdgeInsets.all(16.0),
-        children: <Widget>[
-          _buildDetailRow('First Name', firstName),
-          _buildDetailRow('Last Name', lastName),
-          _buildDetailRow('Height', '$height inches'),
-          _buildDetailRow('Team', team),
-          _buildDetailRow('Position', postition),
-          _buildDetailRow('Jersey Number', jerseyNumber.toString()),
-        ],
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.black,
+          title: Text('Player Details'),
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.arrow_back),
+              onPressed: () {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => const PlayersPage()),
+                );
+              },
+            ),
+            IconButton(
+              icon: const Icon(Icons.edit),
+              onPressed: () {
+                _showEditDialog(context);
+              },
+            ),
+          ],
+        ),
+        body: ListView(
+          padding: const EdgeInsets.all(16.0),
+          children: <Widget>[
+            _buildDetailRow('First Name', firstName),
+            _buildDetailRow('Last Name', lastName),
+            _buildDetailRow('Height', '$height inches'),
+            _buildDetailRow('Team', team),
+            _buildDetailRow('Position', postition),
+            _buildDetailRow('Jersey Number', jerseyNumber.toString()),
+          ],
+        ),
       ),
     );
   }
