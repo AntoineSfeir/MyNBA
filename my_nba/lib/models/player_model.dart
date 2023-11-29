@@ -27,4 +27,25 @@ class Player {
       jerseyNumber: data['jerseyNumber'],
     );
   }
+
+  // Add the copyWith method
+  Player copyWith({
+    int? playerID,
+    String? firstName,
+    String? lastName,
+    int? height,
+    String? teamID,
+    String? position,
+    int? jerseyNumber,
+  }) {
+    return Player(
+      playerID: playerID ?? this.playerID,
+      firstName: firstName ?? this.firstName,
+      lastName: lastName ?? this.lastName,
+      height: height ?? this.height,
+      teamID: teamID ?? this.teamID,
+      position: position ?? this.position,
+      jerseyNumber: jerseyNumber ?? this.jerseyNumber,
+    );
+  }
 }

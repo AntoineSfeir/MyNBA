@@ -65,20 +65,20 @@ class PlayerDb {
         (88888, 'Daniel', 'Wilson', 72, 'Spartans', 'Point Guard', 52),
         (88889, 'Lily', 'Jones', 74, 'Spartans', 'Shooting Guard', 3),
         (88890, 'Owen', 'Garcia', 77, 'Spartans', 'Small Forward', 19),
-          (88891, 'Grace', 'Anderson', 79, 'Spartans', 'Power Forward', 28),
-          (88892, 'Carter', 'Brown', 85, 'Spartans', 'Center', 49),
+        (88891, 'Grace', 'Anderson', 79, 'Spartans', 'Power Forward', 28),
+        (88892, 'Carter', 'Brown', 85, 'Spartans', 'Center', 49),
 
-          (99999, 'Evan', 'Smith', 76, 'Wolves', 'Point Guard', 15),
-          (99998, 'Natalie', 'Miller', 78, 'Wolves', 'Shooting Guard', 35),
-          (99997, 'Tyler', 'Taylor', 80, 'Wolves', 'Small Forward', 12),
-          (99996, 'Alyssa', 'Harris', 82, 'Wolves', 'Power Forward', 38),
-          (99995, 'Ella', 'Scott', 84, 'Wolves', 'Center', 39),
+        (99999, 'Evan', 'Smith', 76, 'Wolves', 'Point Guard', 15),
+        (99998, 'Natalie', 'Miller', 78, 'Wolves', 'Shooting Guard', 35),
+        (99997, 'Tyler', 'Taylor', 80, 'Wolves', 'Small Forward', 12),
+        (99996, 'Alyssa', 'Harris', 82, 'Wolves', 'Power Forward', 38),
+        (99995, 'Ella', 'Scott', 84, 'Wolves', 'Center', 39),
 
-          (88894, 'Logan', 'Garcia', 73, '76ers', 'Point Guard', 45),
-          (88895, 'Zoe', 'Wilson', 75, '76ers', 'Shooting Guard', 46),
-          (88896, 'Mason', 'Brown', 77, '76ers', 'Small Forward', 47),
-          (88897, 'Ava', 'Johnson', 80, '76ers', 'Power Forward', 48),
-          (88898, 'Noah', 'Smith', 82, '76ers', 'Center', 49);
+        (88894, 'Logan', 'Garcia', 73, '76ers', 'Point Guard', 45),
+        (88895, 'Zoe', 'Wilson', 75, '76ers', 'Shooting Guard', 46),
+        (88896, 'Mason', 'Brown', 77, '76ers', 'Small Forward', 47),
+        (88897, 'Ava', 'Johnson', 80, '76ers', 'Power Forward', 48),
+        (88898, 'Noah', 'Smith', 82, '76ers', 'Center', 49);
     ''');
   }
 
@@ -114,7 +114,7 @@ class PlayerDb {
   Future<Player> fetchPlayerByID(int playerID) async {
     final Database database = await DatabaseService().getDataBase();
     final player = await database.rawQuery(
-        'SELECT * FROM $playerTableName WHERE playerID = ?', [playerID]);
+        'SELECT * FROM $playerTableName WHERE playerID = $playerID');
     return Player.fromSqfliteDatbase(player.first);
   }
 
