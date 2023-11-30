@@ -15,16 +15,11 @@ WHERE p.playerID = 22222
     and s.playerID = 22222
 GROUP BY p.playerID, p.firstName, p.lastName;
 
--- select playerID, sum(pointsScored)
--- from scores
--- where playerID = 22222
--- group by playerID;
-
 
 -- QUERY 2
 -- See the list of players on a team.
 
--- test with Rockets, teamID is 1001
+-- test with Rockets
 Select p.playerID, p.firstName, p.lastName, p.teamName
 from players as p, teams as t
 where p.teamName = 'Rockets'
@@ -32,35 +27,64 @@ where p.teamName = 'Rockets'
 
 -- -- OR
 
--- Select playerID, firstName, lastName, teamID
--- from players
--- where teamID = '1001';
+Select playerID, firstName, lastName, teamName
+from players
+where teamName = 'Rockets';
 
 -- QUERY 3
 -- See the teams ranked by scores within a division.
 
--- test with Division 1
--- Select * from teams where division like '%1';
+-- test with Division Alpha
+Select division, teamName, sum(pointsScored) as totalTeamPoints
+from (Select divA.division, p.playerID, p.teamName, sum(s.pointsScored) as pointsScored
+    from (Select * from teams where division like '%Alpha') as divA, players as p, scores as s
+    where divA.teamName = p.teamName
+        and p.playerID = s.playerID
+    group by divA.division, p.playerID, p.teamName) as sub
+group by division, teamName
+order by totalTeamPoints;
 
--- select div1.division, p.teamID, p.firstName, p.lastName, sum(s.pointsScored) as playerPoints
--- from players as p, scores as s, 
---     (Select * from teams where division like '%1') as div1
--- where div1.teamID = p.teamID
---     and p.playerID = s.playerID
--- ORDER by div1.division, p.teamID, p.firstName, p.lastName;
 
--- select * 
--- from players, (Select * from teams where division like '%1') as div1
--- where players.teamID = div1.teamID;
+-- Q4 List all the players ranked by their total points.
 
--- select * 
--- from players, (Select * from teams where division like '%2') as div1
--- where players.teamID = div1.teamID;
+select p.playerID, p.firstName, p.lastName, sum(s.pointsScored) as totalPointsScored
+from players as p, scores as s
+where p.playerID = s.playerID
+group by p.playerID, p.firstName, p.lastName
+order by totalPointsScored;
 
--- select teamID from teams;
 
--- counting all players on each team
--- select count(players.playerID), sub.teamID 
--- from players, (select distinct teamID from players) as sub
--- where sub.teamID = players.teamID
--- group by sub.teamID;
+-- Q4 show the scores of each team in a certain game
+
+--4444 game id
+--- dragons and thunder
+
+-- test with gameID 4444
+select home.gameID, home.teamName as team1Name, home.team1Points, away.teamName as team2Name, away.team2Points
+from (select team1.gameID, team1.teamName, sum(team1.pointsScored) as team1Points
+        from (select t1.gameID as gameID, t1.teamName teamName, p.playerID as playerID, s.pointsScored as pointsScored
+        from players as p, scores as s, (SELECT game.gameID, t.teamName
+            from teams as t, (select * from games where gameID = 4444) as game
+            where game.team1ID = t.teamName) as t1
+        where p.teamName = t1.teamName
+            and s.gameID = t1.gameID
+            and s.playerID = p.playerID) as team1
+        group by team1.gameID, team1.teamName) as home, 
+    (select team2.gameID, team2.teamName, sum(team2.pointsScored) as team2Points
+        from (select t2.gameID as gameID, t2.teamName teamName, p.playerID as playerID, s.pointsScored as pointsScored
+        from players as p, scores as s, (SELECT game.gameID, t.teamName
+            from teams as t, (select * from games where gameID = 4444) as game
+            where game.team2ID = t.teamName) as t2
+        where p.teamName = t2.teamName
+            and s.gameID = t2.gameID
+            and s.playerID = p.playerID) as team2
+        group by team2.gameID, team2.teamName) as away;
+
+
+
+
+-- Q6 BONUS see games played within specif dates
+SELECT *
+FROM games
+WHERE date BETWEEN '2023-03-20' AND '2023-03-25'
+order by date, time;

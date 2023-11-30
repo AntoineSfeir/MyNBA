@@ -14,7 +14,7 @@ class ScoreDB {
         PRIMARY KEY (playerID, gameID),
         FOREIGN KEY (playerID) REFERENCES players(playerID),
         FOREIGN KEY (gameID) REFERENCES games(gameID)
-      )
+      );
     ''');
 
     await database.execute('''
@@ -68,7 +68,6 @@ class ScoreDB {
         (55557, 3334, 14),
         (55558, 3334, 12),
         (55559, 3334, 0);
-
 
     INSERT INTO scores (playerID, gameID, pointsScored) VALUES
         (44444, 1113, 33),

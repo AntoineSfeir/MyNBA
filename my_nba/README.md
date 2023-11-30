@@ -1,3 +1,7 @@
+Our application user interface comes equipped with advanced features such as adding, editing, and removing players, teams, and games from the the built-in database and pages dedicated to each of these categories. All of these operations can be executed with a click of a button. Along with that, our homepage is enabled to run elaborate SQL test queries in order to find specific instances within the database. The database contains all relevant information regarding players, teams, and games as well as links between entities that allows for seamless performance. The application was specifically designed to be simple to use with concise labels that make it accessible for just about any user.
+
+To run the application in VSCode, one must first have Flutter downloaded as well as all other necessary components. The next step is to simply enter the command "cd my_nba" in the terminal panel, followed by the command "flutter run". After these commands you will be prompted to choose which device you are running the application on. For all other relevant information and documentation regarding how to set up the appplication given our code can be found in the links below. 
+
 # my_nba
 
 A new Flutter project.
@@ -14,3 +18,5 @@ A few resources to get you started if this is your first Flutter project:
 For help getting started with Flutter development, view the
 [online documentation](https://docs.flutter.dev/), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
+
+ 

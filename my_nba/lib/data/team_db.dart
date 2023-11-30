@@ -13,22 +13,21 @@ class TeamDb {
           city VARCHAR(50),
           homecourt VARCHAR(50),
           division VARCHAR(50)
-        )
+        );
       ''');
 
     await database.execute('''
-     INSERT INTO teams (teamID, teamName, city, homecourt, division)
-      VALUES
-        (1001, 'Rockets', 'Houston', 'Rocket Arena', 'Division Gamma'),
-        (1002, 'Dragons', 'Los Angeles', 'Dragon Court', 'Division Gamma'),
-        (1003, 'Thunder', 'Oklahoma City', 'Thunder Dome', 'Division Gamma'),
-        (1004, 'Tigers', 'Detroit', 'Tiger Stadium', 'Division Gamma'),
-        (1005, 'Eagles', 'Philadelphia', 'Eagle Nest', 'Division Gamma'),
-        (1006, 'Panthers', 'Miami', 'Panther Park', 'Division Alpha'),
-        (1007, 'Spartans', 'New York', 'Spartan Coliseum', 'Division Alpha'),
-        (1008, 'Blizzards', 'Denver', 'Blizzard Arena', 'Division Alpha'),
-        (1009, 'Wolves', 'Minneapolis', 'Wolf Den', 'Division Alpha'),
-        (1010, 'Phoenix', 'Phoenix', 'Phoenix Court', 'Division Alpha');
+     INSERT INTO teams (teamID, teamName, city, homecourt, division) VALUES
+      (1001, 'Rockets', 'Houston', 'Rocket Arena', 'Division Gamma'),
+      (1002, 'Dragons', 'Los Angeles', 'Dragon Court', 'Division Gamma'),
+      (1003, 'Thunder', 'Oklahoma City', 'Thunder Dome', 'Division Gamma'),
+      (1004, 'Tigers', 'Detroit', 'Tiger Stadium', 'Division Gamma'),
+      (1005, 'Eagles', 'Philadelphia', 'Eagle Nest', 'Division Gamma'),
+      (1006, 'Panthers', 'Miami', 'Panther Park', 'Division Alpha'),
+      (1007, 'Spartans', 'New York', 'Spartan Coliseum', 'Division Alpha'),
+      (1008, 'Blizzards', 'Denver', 'Blizzard Arena', 'Division Alpha'),
+      (1009, 'Wolves', 'Minneapolis', 'Wolf Den', 'Division Alpha'),
+      (1010, 'Phoenix', 'Phoenix', 'Phoenix Court', 'Division Alpha');
    ''');
   }
 
@@ -78,7 +77,7 @@ class TeamDb {
       required homecourt,
       required division}) async {
     final Database database = await DatabaseService().getDataBase();
- 
+
     return await database.update(
         teamTableName,
         {
