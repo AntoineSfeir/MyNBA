@@ -4,7 +4,7 @@ CREATE TABLE players (
     firstName VARCHAR(50),
     lastName VARCHAR(50),
     height INT,
-    teamID VARCHAR(50),
+    teamName VARCHAR(50),
     position VARCHAR(50),
     jerseyNumber INT
 );
@@ -37,7 +37,7 @@ CREATE TABLE scores (
     FOREIGN KEY (gameID) REFERENCES games(gameID)
 );
 
-INSERT INTO players (playerID, firstName, lastName, height, teamID, position, jerseyNumber) VALUES
+INSERT INTO players (playerID, firstName, lastName, height, teamName, position, jerseyNumber) VALUES
     (11111, 'John', 'Doe', 75, 'Rockets', 'Point Guard', 43),
     (11112, 'Michael', 'Johnson', 79, 'Rockets', 'Shooting Guard', 12),
     (11113, 'Sarah', 'Williams', 81, 'Rockets', 'Small Forward', 33),
@@ -69,7 +69,7 @@ INSERT INTO players (playerID, firstName, lastName, height, teamID, position, je
     (55559, 'Logan', 'Miller', 83, 'Eagles', 'Center', 99);
 
 
-INSERT INTO players (playerID, firstName, lastName, height, teamID, position, jerseyNumber) VALUES
+INSERT INTO players (playerID, firstName, lastName, height, teamName, position, jerseyNumber) VALUES
     (66666, 'Lucas', 'Brown', 72, 'Dragons', 'Point Guard', 53),
     (66667, 'Sophia', 'Garcia', 75, 'Dragons', 'Shooting Guard', 16),
     (66668, 'Isaac', 'Martinez', 77, 'Dragons', 'Small Forward', 12),
