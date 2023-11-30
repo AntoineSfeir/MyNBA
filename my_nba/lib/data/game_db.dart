@@ -28,8 +28,6 @@ class GameDb {
         (3333, 'Blizzards', 'Tigers', 'Blizzard Arena', '2023-03-25', '19:00'),
         (3334, 'Rockets', 'Eagles', 'Rocket Arena', '2023-03-28', '20:30');
 
-
-      INSERT INTO games (gameID, team1ID, team2ID, court, date, time) VALUES
         (4444, 'Dragons', 'Thunder', 'Dragon Court', '2023-03-15', '18:30'),
         (4445, 'Phoenix', 'Wolves', 'Phoenix Court', '2023-03-18', '20:00'),
 
