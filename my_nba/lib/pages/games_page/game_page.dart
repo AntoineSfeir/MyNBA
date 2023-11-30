@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_nba/data/game_db.dart';
-import 'package:my_nba/data/team_db.dart';
+import 'package:my_nba/data/score_db.dart';
 import 'package:my_nba/models/game_model.dart';
 import 'package:my_nba/pages/games_page/games_page.dart';
 import 'package:my_nba/data/player_db.dart'; // Replace with your actual import
@@ -30,6 +30,7 @@ class _GamePageState extends State<GamePage> {
 
   GameDb gameDB = GameDb();
   PlayerDb playerDB = PlayerDb();
+  ScoreDB scoreDB = ScoreDB();
 
   Future<List<Player>>? homeTeamPlayers;
   Future<List<Player>>? awayTeamPlayers;

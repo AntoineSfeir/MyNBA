@@ -19,7 +19,7 @@ class PlayerDb {
     ''');
 
     await database.execute('''
-      INSERT INTO players (playerID, firstName, lastName, height, teamID, position, jerseyNumber) VALUES
+      INSERT INTO players (playerID, firstName, lastName, height, teamName, position, jerseyNumber) VALUES
         (11111, 'John', 'Doe', 75, 'Rockets', 'Point Guard', 43),
         (11112, 'Michael', 'Johnson', 79, 'Rockets', 'Shooting Guard', 12),
         (11113, 'Sarah', 'Williams', 81, 'Rockets', 'Small Forward', 33),
