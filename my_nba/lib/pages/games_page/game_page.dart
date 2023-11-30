@@ -38,7 +38,9 @@ class _GamePageState extends State<GamePage> {
 
   Future<Score>? playerScores;
 
-  int playerID = 0;
+  Future<int>? homeTeamTotalPoints;
+  Future<int>? awayTeamTotalPoints;
+
 
   @override
   void initState() {
@@ -56,6 +58,7 @@ class _GamePageState extends State<GamePage> {
     date = widget.game.date;
     time = widget.game.time;
     fetchTeamPlayers();
+    fetchTeamTotalPoints();
   }
 
   void fetchTeamPlayers() {
@@ -63,6 +66,27 @@ class _GamePageState extends State<GamePage> {
       homeTeamPlayers = playerDB.fetchPlayerByTeam(widget.game.team1ID);
       awayTeamPlayers = playerDB.fetchPlayerByTeam(widget.game.team2ID);
     });
+  }
+
+  void fetchTeamTotalPoints() {
+    setState(() {
+      homeTeamTotalPoints = calculateTeamTotalPoints(homeTeamPlayers);
+      awayTeamTotalPoints = calculateTeamTotalPoints(awayTeamPlayers);
+    });
+  }
+
+  Future<int> calculateTeamTotalPoints(Future<List<Player>>? players) async {
+    List<Player> teamPlayers = await players!;
+    int totalPoints = 0;
+
+    for (Player player in teamPlayers) {
+      Score? playerScore = await fetchScorePlayers(player.playerID);
+      if (playerScore != null) {
+        totalPoints += playerScore.pointsScored;
+      }
+    }
+
+    return totalPoints;
   }
 
   @override
@@ -116,6 +140,8 @@ class _GamePageState extends State<GamePage> {
                     _buildDetailRow('Home:', homeTeam),
                     const Divider(),
                     _buildPlayerList(homeTeam, homeTeamPlayers),
+                      const Divider(),
+                    _buildTotalScoreRow('Total Points:', homeTeamTotalPoints),
                   ],
                 ),
               ),
@@ -127,6 +153,8 @@ class _GamePageState extends State<GamePage> {
                     _buildDetailRow('Away: ', awayTeam),
                     const Divider(),
                     _buildPlayerList(awayTeam, awayTeamPlayers),
+                    const Divider(),
+                    _buildTotalScoreRow('Total Points:', awayTeamTotalPoints),
                   ],
                 ),
               ),
@@ -147,6 +175,42 @@ class _GamePageState extends State<GamePage> {
       ),
     );
   }
+
+  Widget _buildTotalScoreRow(String label, Future<int>? value) {
+  return Padding(
+    padding: const EdgeInsets.symmetric(vertical: 8.0),
+    child: FutureBuilder<int>(
+      future: value,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Text('Loading...'); // or a loading indicator
+        } else if (snapshot.hasError) {
+          return Text('Error: ${snapshot.error}');
+        } else {
+          return Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                label,
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              Text(
+                'Total Points: ${snapshot.data}',
+                style: const TextStyle(
+                  fontSize: 18,
+                ),
+              ),
+            ],
+          );
+        }
+      },
+    ),
+  );
+}
+
 
   Widget _buildDetailRow(String label, String value) {
     return Padding(
