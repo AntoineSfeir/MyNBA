@@ -42,70 +42,114 @@ class _CreateGameState extends State<CreateGamePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Create Game'),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            TextField(
-              controller: team1IDController,
-              decoration: const InputDecoration(labelText: 'Home'),
-            ),
-            const SizedBox(height: 16),
-            TextField(
-              controller: team2IDController,
-              decoration: const InputDecoration(labelText: 'Away'),
-            ),
-            const SizedBox(height: 16),
-            TextField(
-              controller: dateController,
-              decoration: const InputDecoration(labelText: 'Date'),
-            ),
-            const SizedBox(height: 16),
-            TextField(
-              controller: timeController,
-              decoration: const InputDecoration(labelText: 'Time'),
-            ),
-            const SizedBox(height: 32),
-            SizedBox(
-              width: 50, // Set your desired width
-              child: ElevatedButton(
-                onPressed: () {
-                  _saveGame();
-                  // Navigator.pop(context);
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => ScoreEntryPage(
-                        gameID: gameID,
-                        team1ID: team1IDController.text,
-                        team2ID: team2IDController.text,
-                    ),
-                    ),
-                  );
-                },
-                child: const Text('Add Game'),
+    return MaterialApp(
+      debugShowCheckedModeBanner: false, // Remove the debug banner
+      home: Scaffold(
+        appBar: AppBar(
+          title: const Text('Create Game'),
+          backgroundColor: Colors.black,
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back),
+            onPressed: () {
+              // Add your back button functionality here
+              Navigator.pop(context);
+            },
+          ),
+        ),
+        body: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              TextField(
+                controller: team1IDController,
+                decoration: const InputDecoration(labelText: 'Home'),
               ),
-            ),
-          ],
+              const SizedBox(height: 16),
+              TextField(
+                controller: team2IDController,
+                decoration: const InputDecoration(labelText: 'Away'),
+              ),
+              const SizedBox(height: 16),
+              TextField(
+                controller: dateController,
+                decoration:
+                    const InputDecoration(labelText: 'Date(YYYY-MM-DD)'),
+              ),
+              const SizedBox(height: 16),
+              TextField(
+                controller: timeController,
+                decoration:
+                    const InputDecoration(labelText: 'Time(24 HH:MM))'),
+              ),
+              const SizedBox(height: 32),
+              SizedBox(
+                width: 50, // Set your desired width
+                child: ElevatedButton(
+                  onPressed: () {
+                    _saveGame();
+                  },
+                  child: const Text('Add Game'),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
 
   void _saveGame() async {
-    Team thisHomeTeam = await teamDB.fetchTeamByName(team1IDController.text);
-    gameDb.insertGame(
-      gameID: gameID,
-      team1ID: team1IDController.text,
-      team2ID: team2IDController.text,
-      court: thisHomeTeam.homecourt,
-      date: dateController.text,
-      time: timeController.text,
-    );
+    try {
+      Team thisHomeTeam = await teamDB.fetchTeamByName(team1IDController.text);
+      Team thisAwayTeam = await teamDB.fetchTeamByName(team2IDController.text);
+
+      String homeTeamName = thisHomeTeam.teamName;
+      String awayTeamName = thisAwayTeam.teamName;
+
+      if (homeTeamName.isEmpty || awayTeamName.isEmpty) {
+        return;
+      } else {
+        gameDb.insertGame(
+          gameID: gameID,
+          team1ID: team1IDController.text,
+          team2ID: team2IDController.text,
+          court: thisHomeTeam.homecourt,
+          date: dateController.text,
+          time: timeController.text,
+        );
+
+        // Navigate to the next screen
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ScoreEntryPage(
+              gameID: gameID,
+              team1ID: team1IDController.text,
+              team2ID: team2IDController.text,
+            ),
+          ),
+        );
+      }
+    } catch (e) {
+      // Display an alert dialog if there's an issue with inserting the game
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('Error'),
+            content: Text('Your input is invalid. Please check if the teams you entered exist!'),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Text('OK'),
+              ),
+            ],
+          );
+        },
+      );
+    }
   }
 }
