@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 class Game{
   final int gameID;
   final String team1ID;
@@ -16,11 +18,11 @@ class Game{
       });
 
       factory Game.fromSqfliteDatbase(Map<String, dynamic> data) {
-        return Game(gameID: data[''], 
-          team1ID: data[''], 
-          team2ID: data[''], 
-          court: data[''], 
-          date: data[''], 
-          time: data['']);
+        return Game(gameID: data['gameID'], 
+          team1ID: data['team1ID'], 
+          team2ID: data['team2ID'], 
+          court: data['court'], 
+          date: data['date'], 
+          time: data['time']);
       }
 }
