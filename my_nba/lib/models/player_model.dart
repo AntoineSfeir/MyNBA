@@ -1,45 +1,51 @@
 class Player {
-  int playerID;
-  String firstName;
-  String lastName;
-  int height;
-  String teamID;
-  String position;
-  int jerseyNumber;
+  final int playerID;
+  final String firstName;
+  final String lastName;
+  final int height;
+  final String teamName;
+  final String position;
+  final int jerseyNumber;
 
-  Player({
-    required this.playerID,
-    required this.firstName,
-    required this.lastName,
-    required this.height,
-    required this.teamID,
-    required this.position,
-    required this.jerseyNumber,
-  });
+  Player(
+      {required this.playerID,
+      required this.firstName,
+      required this.lastName,
+      required this.height,
+      required this.teamName,
+      required this.position,
+      required this.jerseyNumber});
 
-  // Convert a Player object to a map for database operations
-  Map<String, dynamic> toMap() {
-    return {
-      'playerID': playerID,
-      'firstName': firstName,
-      'lastName': lastName,
-      'height': height,
-      'teamID': teamID,
-      'position': position,
-      'jerseyNumber': jerseyNumber,
-    };
+  factory Player.fromSqfliteDatbase(Map<String, dynamic> data) {
+    return Player(
+      playerID: data['playerID'],
+      firstName: data['firstName'],
+      lastName: data['lastName'],
+      height: int.parse(data['height'].toString()), // Convert to int
+      teamName: data['teamName'],
+      position: data['position'],
+      jerseyNumber: data['jerseyNumber'],
+    );
   }
 
-  // Create a Player object from a map received from the database
-  factory Player.fromMap(Map<String, dynamic> map) {
+  // Add the copyWith method
+  Player copyWith({
+    int? playerID,
+    String? firstName,
+    String? lastName,
+    int? height,
+    String? teamName,
+    String? position,
+    int? jerseyNumber,
+  }) {
     return Player(
-      playerID: map['playerID'],
-      firstName: map['firstName'],
-      lastName: map['lastName'],
-      height: map['height'],
-      teamID: map['teamID'],
-      position: map['position'],
-      jerseyNumber: map['jerseyNumber'],
+      playerID: playerID ?? this.playerID,
+      firstName: firstName ?? this.firstName,
+      lastName: lastName ?? this.lastName,
+      height: height ?? this.height,
+      teamName: teamName ?? this.teamName,
+      position: position ?? this.position,
+      jerseyNumber: jerseyNumber ?? this.jerseyNumber,
     );
   }
 }

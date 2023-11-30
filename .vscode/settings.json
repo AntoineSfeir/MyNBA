@@ -1,11 +1,12 @@
 {
-    "cmake.configureOnOpen": true,
     "sqltools.connections": [
         {
             "previewLimit": 50,
             "driver": "SQLite",
             "name": "my_nba",
-            "database": "${workspaceFolder:MyNBA}/my_nba/my_nba.db"
+            "database": "${workspaceFolder:MyNBA}/my_nba/lib/assets/my_nba.db"
         }
-    ]
+    ],
+    "sqltools.useNodeRuntime": true,
+    "cmake.sourceDirectory": "/Users/ethan/Documents/GitHub/MyNBA/my_nba/linux"
 }

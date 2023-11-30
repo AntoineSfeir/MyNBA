@@ -1,33 +1,25 @@
 class Team {
-  String teamID;
-  String city;
-  String homeCourt;
-  String division;
+  final int teamID;
+  final String teamName;
+  final String city;
+  final String homecourt;
+  final String division;
 
   Team({
     required this.teamID,
+    required this.teamName,
     required this.city,
-    required this.homeCourt,
+    required this.homecourt,
     required this.division,
   });
 
-  // Convert a Team object to a map for database operations
-  Map<String, dynamic> toMap() {
-    return {
-      'teamID': teamID,
-      'city': city,
-      'homeCourt': homeCourt,
-      'division': division,
-    };
-  }
-
-  // Create a Team object from a map received from the database
-  factory Team.fromMap(Map<String, dynamic> map) {
+  factory Team.fromSqfliteDatbase(Map<String, dynamic> data) {
     return Team(
-      teamID: map['teamID'],
-      city: map['city'],
-      homeCourt: map['homeCourt'],
-      division: map['division'],
+      teamID: data['teamID'],
+      teamName: data['teamName'],
+      city: data['city'],
+      homecourt: data['homecourt'],
+      division: data['division'],
     );
   }
 }

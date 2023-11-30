@@ -1,71 +1,42 @@
 import 'package:flutter/material.dart';
-import 'package:my_nba/pages/game_page.dart';
-import 'package:my_nba/pages/team_page.dart';
-import 'package:my_nba/pages/player_page.dart';
+import 'package:my_nba/pages/home_page.dart';
+import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
-void main() => runApp(const MyApp());
+void main() {
+  // Initialize FFI
+  sqfliteFfiInit();
+  databaseFactory = databaseFactoryFfi;
+  runApp(const MyApp());
+}
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
+    MaterialColor customBlack = const MaterialColor(
+      0xFF000000, // Black primary color value
+      <int, Color>{
+        50: Color(
+            0xFF000000), // Shades of black for lighter variations if needed
+        100: Color(0xFF000000),
+        200: Color(0xFF000000),
+        300: Color(0xFF000000),
+        400: Color(0xFF000000),
+        500: Color(0xFF000000),
+        600: Color(0xFF000000),
+        700: Color(0xFF000000),
+        800: Color(0xFF000000),
+        900: Color(0xFF000000),
+      },
+    );
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'MyNBA',
+      title: 'My NBA',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: customBlack,
       ),
-      home: const MyHomePage(),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key});
-
-  @override
-  _MyHomePageState createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _currentIndex = 0;
-
-  final List<Widget> _pages = [
-    PlayerPage(),
-    TeamPage(),
-    const GamePage(),
-  ];
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('MyNBA'),
-      ),
-      body: _pages[_currentIndex],
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _currentIndex,
-        onTap: (index) {
-          setState(() {
-            _currentIndex = index;
-          });
-        },
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Players',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.people),
-            label: 'Teams',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.sports_basketball),
-            label: 'Games',
-          ),
-        ],
-      ),
+      home: const HomePage(),
     );
   }
 }

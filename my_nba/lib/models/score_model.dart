@@ -1,7 +1,7 @@
 class Score {
-  int playerID;
-  int gameID;
-  int pointsScored;
+  final int playerID;
+  final int gameID;
+  final int pointsScored;
 
   Score({
     required this.playerID,
@@ -9,21 +9,24 @@ class Score {
     required this.pointsScored,
   });
 
-  // Convert a Score object to a map for database operations
-  Map<String, dynamic> toMap() {
-    return {
-      'playerID': playerID,
-      'gameID': gameID,
-      'pointsScored': pointsScored,
-    };
+  factory Score.fromSqfliteDatbase(Map<String, dynamic> data) {
+    return Score(
+      playerID: data['playerID'],
+      gameID: data['gameID'],
+      pointsScored: data['pointsScored'],
+    );
   }
 
-  // Create a Score object from a map received from the database
-  factory Score.fromMap(Map<String, dynamic> map) {
+  // Add the copyWith method
+  Score copyWith({
+    int? playerID,
+    int? gameID,
+    int? pointsScored,
+  }) {
     return Score(
-      playerID: map['playerID'],
-      gameID: map['gameID'],
-      pointsScored: map['pointsScored'],
+      playerID: playerID ?? this.playerID,
+      gameID: gameID ?? this.gameID,
+      pointsScored: pointsScored ?? this.pointsScored,
     );
   }
 }
