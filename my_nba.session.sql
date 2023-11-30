@@ -1,1 +1,1 @@
-SELECT * FROM players
+select * from teams;

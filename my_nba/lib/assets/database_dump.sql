@@ -1,3 +1,4 @@
+
 CREATE TABLE players (
     playerID INT PRIMARY KEY,
     firstName VARCHAR(50),
