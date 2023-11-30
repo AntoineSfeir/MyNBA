@@ -1,7 +1,10 @@
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:my_nba/data/game_db.dart';
 import 'package:my_nba/data/team_db.dart';
+import 'package:my_nba/data/score_db.dart';
 import 'package:my_nba/data/player_db.dart';
+import 'package:my_nba/models/score_model.dart';
 
 class DatabaseService {
   Database? _database;
@@ -36,5 +39,7 @@ class DatabaseService {
   Future<void> create(Database database, int version) async {
       await PlayerDb().createPlayerTable(database);
       await TeamDb().createTeamTable(database);
+      await GameDb().createGameTable(database);
+      await ScoreDB().createScoreTable(database);
   }
 }
