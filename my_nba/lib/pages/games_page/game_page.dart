@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:my_nba/data/game_db.dart';
+import 'package:my_nba/data/team_db.dart';
 import 'package:my_nba/models/game_model.dart';
 import 'package:my_nba/pages/games_page/games_page.dart';
+import 'package:my_nba/data/player_db.dart'; // Replace with your actual import
+import 'package:my_nba/models/player_model.dart'; // Replace with your actual import
 
 class GamePage extends StatefulWidget {
   const GamePage({Key? key, required this.game}) : super(key: key);
@@ -25,7 +28,11 @@ class _GamePageState extends State<GamePage> {
   String date = "";
   String time = "";
 
-  GameDb db = GameDb();
+  GameDb gameDB = GameDb();
+  PlayerDb playerDB = PlayerDb();
+
+  Future<List<Player>>? homeTeamPlayers;
+  Future<List<Player>>? awayTeamPlayers;
 
   @override
   void initState() {
@@ -42,6 +49,14 @@ class _GamePageState extends State<GamePage> {
     court = widget.game.court;
     date = widget.game.date;
     time = widget.game.time;
+    fetchTeamPlayers();
+  }
+
+  void fetchTeamPlayers() {
+    setState(() {
+      homeTeamPlayers = playerDB.fetchPlayerByTeam(widget.game.team1ID);
+      awayTeamPlayers = playerDB.fetchPlayerByTeam(widget.game.team2ID);
+    });
   }
 
   @override
@@ -85,13 +100,41 @@ class _GamePageState extends State<GamePage> {
         ),
         body: Padding(
           padding: const EdgeInsets.all(16.0),
-          child: ListView(
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              _buildDetailRow('Home:', homeTeam),
-              _buildDetailRow('Away: ', awayTeam),
-              _buildDetailRow('Court', court),
-              _buildDetailRow('Date', date),
-              _buildDetailRow('Time', time),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: <Widget>[
+                    _buildDetailRow('Home:', homeTeam),
+                    const Divider(),
+                    _buildPlayerList(homeTeam, homeTeamPlayers),
+                  ],
+                ),
+              ),
+              const VerticalDivider(),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: <Widget>[
+                    _buildDetailRow('Away: ', awayTeam),
+                    const Divider(),
+                    _buildPlayerList(awayTeam, awayTeamPlayers),
+                  ],
+                ),
+              ),
+              const VerticalDivider(),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: <Widget>[
+                    _buildDetailRow('Court', court),
+                    _buildDetailRow('Date', date),
+                    _buildDetailRow('Time', time),
+                  ],
+                ),
+              ),
             ],
           ),
         ),
@@ -120,6 +163,37 @@ class _GamePageState extends State<GamePage> {
           ),
         ],
       ),
+    );
+  }
+
+ Widget _buildPlayerList(String teamID, Future<List<Player>>? players) {
+  return FutureBuilder<List<Player>>(
+    future: players,
+    builder: (context, snapshot) {
+      if (snapshot.connectionState == ConnectionState.waiting) {
+        return CircularProgressIndicator();
+      } else if (snapshot.hasError) {
+        return Text('Error: ${snapshot.error}');
+      } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+        return Text('No players available.');
+      } else {
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: snapshot.data!.map((player) {
+            return _buildPlayerItem(player);
+          }).toList(),
+        );
+      }
+    },
+  );
+}
+
+
+  Widget _buildPlayerItem(Player player) {
+    return ListTile(
+      title: Text('${player.firstName} ${player.lastName}'),
+      subtitle:
+          Text('Position: ${player.position}, Jersey: ${player.jerseyNumber}'),
     );
   }
 
@@ -182,12 +256,13 @@ class _GamePageState extends State<GamePage> {
     );
   }
 
+  
+
   void _deleteGame() {
-    db.deleteGame(widget.game.gameID);
+    gameDB.deleteGame(widget.game.gameID);
   }
 
   void _updateGameInformation() {
-
     setState(() {
       homeTeam = team1Controller.text;
       awayTeam = team2Controller.text;
@@ -195,7 +270,7 @@ class _GamePageState extends State<GamePage> {
       date = dateController.text;
       time = timeController.text;
     });
-    db.updateGame(
+    gameDB.updateGame(
       gameID: widget.game.gameID,
       team1ID: team1Controller.text,
       team2ID: team2Controller.text,
