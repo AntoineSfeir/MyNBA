@@ -16,7 +16,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final TextEditingController _queryController = TextEditingController();
   final SqlConsole _sqlConsole = SqlConsole();
-    final ScrollController _scrollController = ScrollController();
+  final ScrollController _scrollController = ScrollController();
 
   String _queryResult = '';
   bool _sqlSectionVisible = false;
@@ -75,8 +75,8 @@ class _HomePageState extends State<HomePage> {
                             fontWeight: FontWeight.bold, fontSize: 16)),
                     IconButton(
                       icon: _sqlSectionVisible
-                          ? const Icon(Icons.keyboard_arrow_down)
-                          : const Icon(Icons.keyboard_arrow_up),
+                          ? const Icon(Icons.keyboard_arrow_up)
+                          : const Icon(Icons.keyboard_arrow_down),
                       onPressed: () {
                         setState(() {
                           _sqlSectionVisible = !_sqlSectionVisible;
@@ -182,7 +182,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-   Widget _buildSqlSection() {
+  Widget _buildSqlSection() {
     return SingleChildScrollView(
       controller: _scrollController,
       child: Column(
@@ -190,7 +190,8 @@ class _HomePageState extends State<HomePage> {
         children: [
           _buildResizableTextField(),
           const SizedBox(height: 16),
-          const Text('Output', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+          const Text('Output',
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
           const SizedBox(height: 8),
           Container(
             color: Colors.grey[300],
@@ -376,7 +377,7 @@ class _HomePageState extends State<HomePage> {
 
     INSERT INTO games (gameID, team1ID, team2ID, court, date, time) VALUES
         (1111, 'Rockets', 'Panthers', 'Rocket Arena', '2023-03-15', '18:00'),
-        (1112, 'Eagles', 'Blizzards', 'Eagle Nest', '2023-03-18', '19:30'),
+      -- (1112, 'Eagles', 'Blizzards', 'Eagle Nest', '2023-03-18', '19:30'),
 
         (2222, 'Tigers', 'Rockets', 'Tiger Stadium', '2023-03-20', '20:00'),
         (2223, 'Panthers', 'Eagles', 'Panther Park', '2023-03-23', '18:30'),
