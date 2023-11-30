@@ -314,8 +314,8 @@ class _HomePageState extends State<HomePage> {
         (33333, 'Aaron', 'Smith', 75, 'Tigers', 'Point Guard', 34),
         (33334, 'Ashley', 'Jones', 77, 'Tigers', 'Shooting Guard', 23),
         (33335, 'Jordan', 'Martinez', 79, 'Tigers', 'Small Forward', 44),
-        (33336, 'Taylor', 'Thomas', 81, 'Tigers', 'Power Forward', 89),
-        (33337, 'Ryan', 'Garcia', 80, 'Tigers', 'Center', 35),
+        (33336, 'Alex', 'Brodsky', 81, 'Tigers', 'Power Forward', 69),
+        (33337, 'Antoine', 'Sfeir', 80, 'Tigers', 'Center', 420),
 
         (44444, 'Cameron', 'Brown', 72, 'Blizzards', 'Point Guard', 24),
         (44445, 'Olivia', 'Clark', 74, 'Blizzards', 'Shooting Guard', 3),
