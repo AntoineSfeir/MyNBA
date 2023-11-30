@@ -9,7 +9,6 @@ class DatabaseService {
   Database? _database;
 
   Future<Database> getDataBase() async {
-    _database = await _initialize();
     if (_database != null) {
       return _database!;
     } else {
@@ -36,9 +35,9 @@ class DatabaseService {
   }
 
   Future<void> create(Database database, int version) async {
-      await PlayerDb().createPlayerTable(database);
-      await TeamDb().createTeamTable(database);
-      await GameDb().createGameTable(database);
-      await ScoreDB().createScoreTable(database);
+    await PlayerDb().createPlayerTable(database);
+    await TeamDb().createTeamTable(database);
+    await GameDb().createGameTable(database);
+    await ScoreDB().createScoreTable(database);
   }
 }
