@@ -105,6 +105,15 @@ class _ScoreEntryPageState extends State<ScoreEntryPage> {
           padding: const EdgeInsets.all(16.0),
           child: Column(
             children: [
+              Row(
+                children: [
+                  Text(widget.team1ID,
+                      style: const TextStyle(fontWeight: FontWeight.bold)),
+                  const Spacer(),
+                  Text(widget.team2ID,
+                      style: const TextStyle(fontWeight: FontWeight.bold)),
+                ],
+              ),
               Expanded(
                 child: FutureBuilder<List<Player>>(
                   future: homeTeamPlayers,
@@ -137,6 +146,7 @@ class _ScoreEntryPageState extends State<ScoreEntryPage> {
                                         child: Padding(
                                           padding: const EdgeInsets.all(4.0),
                                           child: TextField(
+                                                 decoration: const InputDecoration(hintText: 'Enter an Integer Value'),
                                             controller:
                                                 homeScoreControllers[index],
                                             keyboardType: TextInputType.number,
@@ -158,6 +168,7 @@ class _ScoreEntryPageState extends State<ScoreEntryPage> {
                                         child: Padding(
                                           padding: const EdgeInsets.all(4.0),
                                           child: TextField(
+                                             decoration: const InputDecoration(hintText: 'Enter an Integer Value'),
                                             controller:
                                                 awayScoreControllers[index],
                                             keyboardType: TextInputType.number,

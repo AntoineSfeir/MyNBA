@@ -74,13 +74,12 @@ class _CreateGameState extends State<CreateGamePage> {
               TextField(
                 controller: dateController,
                 decoration:
-                    const InputDecoration(labelText: 'Date(YYYY-MM-DD)'),
+                    const InputDecoration(hintText: 'Date(YYYY-MM-DD)'),
               ),
               const SizedBox(height: 16),
               TextField(
                 controller: timeController,
-                decoration:
-                    const InputDecoration(labelText: 'Time(24 HH:MM))'),
+                decoration: const InputDecoration(hintText: 'Time(24 HH:MM)'),
               ),
               const SizedBox(height: 32),
               SizedBox(
@@ -120,6 +119,7 @@ class _CreateGameState extends State<CreateGamePage> {
         );
 
         // Navigate to the next screen
+        // ignore: use_build_context_synchronously
         Navigator.push(
           context,
           MaterialPageRoute(
@@ -133,18 +133,20 @@ class _CreateGameState extends State<CreateGamePage> {
       }
     } catch (e) {
       // Display an alert dialog if there's an issue with inserting the game
+      // ignore: use_build_context_synchronously
       showDialog(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
             title: const Text('Error'),
-            content: Text('Your input is invalid. Please check if the teams you entered exist!'),
+            content: const Text(
+                'Your input is invalid. Please check if the teams you entered exist!'),
             actions: [
               TextButton(
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
-                child: Text('OK'),
+                child: const Text('OK'),
               ),
             ],
           );
