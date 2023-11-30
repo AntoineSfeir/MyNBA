@@ -78,8 +78,12 @@ class _ScoreEntryPageState extends State<ScoreEntryPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Score Entry')),
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home:
+    Scaffold(
+      appBar: AppBar(title: const Text('Score Entry',),
+      backgroundColor: Colors.black,),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -93,28 +97,52 @@ class _ScoreEntryPageState extends State<ScoreEntryPage> {
                       future: awayTeamPlayers,
                       builder: (context, awaySnapshot) {
                         if (awaySnapshot.hasData) {
-                          List<Player> allPlayers = [
-                            ...homeSnapshot.data!,
-                            ...awaySnapshot.data!
-                          ];
-
-                          return Container(
+                          List<Player> homePlayers = [...homeSnapshot.data!];
+                          List<Player> awayPlayers = [...awaySnapshot.data!];
+                          return SizedBox(
                             height: MediaQuery.of(context).size.height *
                                 0.7, // Set a height limit
                             child: ListView.builder(
-                              itemCount: allPlayers.length,
+                              itemCount: homePlayers.length,
                               itemBuilder: (context, index) {
-                                Player currentPlayer = allPlayers[index];
+                                Player homePlayer = homePlayers[index];
+                                Player awayPlayer = awayPlayers[index];
                                 return Row(
                                   children: [
                                     Expanded(
-                                      child: Text(
-                                          '${currentPlayer.firstName} ${currentPlayer.lastName}'),
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(4.0),
+                                        child: Text(
+                                            '${homePlayer.firstName} ${homePlayer.lastName}'),
+                                      ),
                                     ),
                                     Expanded(
-                                      child: TextField(
-                                        controller: scoreControllers[index],
-                                        keyboardType: TextInputType.number,
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(4.0),
+                                        child: TextField(
+                                          controller: scoreControllers[index],
+                                          keyboardType: TextInputType.number,
+                                        ),
+                                      ),
+                                    ),
+                                    const VerticalDivider(
+                                      color: Colors.black,
+                                      thickness: 1,
+                                    ),
+                                    Expanded(
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(4.0),
+                                        child: Text(
+                                            '${awayPlayer.firstName} ${awayPlayer.lastName}'),
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(4.0),
+                                        child: TextField(
+                                          controller: scoreControllers[index],
+                                          keyboardType: TextInputType.number,
+                                        ),
                                       ),
                                     ),
                                   ],
@@ -139,6 +167,7 @@ class _ScoreEntryPageState extends State<ScoreEntryPage> {
               ),
             ),
             ElevatedButton(
+              
               onPressed: () async {
                 _saveScores();
                 Navigator.pushReplacement(
@@ -153,7 +182,9 @@ class _ScoreEntryPageState extends State<ScoreEntryPage> {
           ],
         ),
       ),
+    ),
     );
+    
   }
 
   void _saveScores() async {
@@ -173,7 +204,9 @@ class _ScoreEntryPageState extends State<ScoreEntryPage> {
       int score = int.tryParse(scoreControllers[i].text) ?? 0;
 
       await scoreDB.insertScore(
-          playerID: allPlayers[i].playerID, gameID:  widget.gameID, pointsScored: score);
+          playerID: allPlayers[i].playerID,
+          gameID: widget.gameID,
+          pointsScored: score);
     }
   }
 }

@@ -1,10 +1,10 @@
+import 'package:sqflite/sqflite.dart';
 import 'package:flutter/material.dart';
 import 'package:my_nba/data/sql_console.dart';
+import 'package:my_nba/data/database_service.dart';
 import 'package:my_nba/pages/games_page/games_page.dart';
 import 'package:my_nba/pages/team_pages/teams_page.dart';
 import 'package:my_nba/pages/player_pages/players_page.dart';
-import 'package:my_nba/data/database_service.dart';
-import 'package:sqflite/sqflite.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -283,7 +283,7 @@ class _HomePageState extends State<HomePage> {
         team2ID VARCHAR(50),
         court VARCHAR(50),
         date TEXT,
-        time TIME
+        time TEXT
     );
 
     CREATE TABLE scores (
