@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:my_nba/data/game_db.dart';
 import 'package:my_nba/data/team_db.dart';
 import 'package:my_nba/models/team_model.dart';
+import 'package:my_nba/pages/games_page/score_entry_page.dart';
 
 class CreateGamePage extends StatefulWidget {
   const CreateGamePage({Key? key}) : super(key: key);
@@ -19,6 +20,7 @@ class _CreateGameState extends State<CreateGamePage> {
 
   GameDb gameDb = GameDb();
   TeamDb teamDB = TeamDb();
+  int gameID = Random().nextInt(10000);
 
   @override
   void initState() {
@@ -74,7 +76,17 @@ class _CreateGameState extends State<CreateGamePage> {
               child: ElevatedButton(
                 onPressed: () {
                   _saveGame();
-                  Navigator.pop(context);
+                  // Navigator.pop(context);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ScoreEntryPage(
+                        gameID: gameID,
+                        team1ID: team1IDController.text,
+                        team2ID: team2IDController.text,
+                    ),
+                    ),
+                  );
                 },
                 child: const Text('Add Game'),
               ),
@@ -87,16 +99,6 @@ class _CreateGameState extends State<CreateGamePage> {
 
   void _saveGame() async {
     Team thisHomeTeam = await teamDB.fetchTeamByName(team1IDController.text);
-
-    Team thisAwayTeam = await teamDB.fetchTeamByName(team2IDController.text);
-
-    String homeTeam = thisHomeTeam.teamName;
-    String awayTeam = thisAwayTeam.teamName;
-    if(homeTeam.isEmpty || awayTeam.isEmpty){
-      return;
-    }
-
-    int gameID = Random().nextInt(10000);
     gameDb.insertGame(
       gameID: gameID,
       team1ID: team1IDController.text,
