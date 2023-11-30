@@ -1,3 +1,7 @@
+-- drop table players;
+-- drop table teams;
+-- drop table games;
+-- drop table scores;
 
 CREATE TABLE players (
     playerID INT PRIMARY KEY,
