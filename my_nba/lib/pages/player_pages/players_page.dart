@@ -95,7 +95,7 @@ class _PlayersPageState extends State<PlayersPage> {
                     Player player = snapshot.data![index];
                     String firstName = player.firstName;
                     String lastName = player.lastName;
-                    String team = player.teamID;
+                    String team = player.teamName;
                     return ListTile(
                       title: Text(
                         "$firstName $lastName",

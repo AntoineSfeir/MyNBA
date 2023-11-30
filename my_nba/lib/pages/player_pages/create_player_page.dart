@@ -80,7 +80,7 @@ class _CreatePlayerPageState extends State<CreatePlayerPage> {
       firstName: firstName,
       lastName: lastName,
       height: height,
-      teamID: team,
+      teamName: team,
       position: position,
       jerseyNumber: jerseyNumber,
     );

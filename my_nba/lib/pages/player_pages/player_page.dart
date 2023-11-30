@@ -36,7 +36,7 @@ class _PlayerPageState extends State<PlayerPage> {
     firstName = widget.player.firstName;
     lastName = widget.player.lastName;
     height = widget.player.height;
-    team = widget.player.teamID;
+    team = widget.player.teamName;
     postition = widget.player.position;
     jerseyNumber = widget.player.jerseyNumber;
 
@@ -44,7 +44,7 @@ class _PlayerPageState extends State<PlayerPage> {
     firstNameController.text = widget.player.firstName;
     lastNameController.text = widget.player.lastName;
     heightController.text = widget.player.height.toString();
-    teamController.text = widget.player.teamID;
+    teamController.text = widget.player.teamName;
     positionController.text = widget.player.position;
     jerseyNumberController.text = widget.player.jerseyNumber.toString();
   }
@@ -208,7 +208,7 @@ class _PlayerPageState extends State<PlayerPage> {
       firstName: firstNameController.text,
       lastName: lastNameController.text,
       height: int.parse(heightController.text),
-      teamID: teamController.text,
+      teamName: teamController.text,
       position: positionController.text,
       jerseyNumber: int.parse(jerseyNumberController.text),
     );

@@ -12,14 +12,14 @@ class PlayerDb {
         firstName VARCHAR(50),
         lastName VARCHAR(50),
         height INT,
-        teamID VARCHAR(50),
+        teamName VARCHAR(50),
         position VARCHAR(50),
         jerseyNumber INT
       )
     ''');
 
     await database.execute('''
-      INSERT INTO players (playerID, firstName, lastName, height, teamID, position, jerseyNumber) VALUES
+      INSERT INTO players (playerID, firstName, lastName, height, teamName, position, jerseyNumber) VALUES
         (11111, 'John', 'Doe', 75, 'Rockets', 'Point Guard', 43),
         (11112, 'Michael', 'Johnson', 79, 'Rockets', 'Shooting Guard', 12),
         (11113, 'Sarah', 'Williams', 81, 'Rockets', 'Small Forward', 33),
@@ -87,18 +87,18 @@ class PlayerDb {
       required firstName,
       required lastName,
       required height,
-      required teamID,
+      required teamName,
       required position,
       required jerseyNumber}) async {
     final Database database = await DatabaseService().getDataBase();
     return await database.rawInsert(
-        'INSERT INTO $playerTableName (playerID, firstName, lastName, height, teamID, position, jerseyNumber) VALUES (?, ?, ?, ?, ?, ?, ?)',
+        'INSERT INTO $playerTableName (playerID, firstName, lastName, height, teamName, position, jerseyNumber) VALUES (?, ?, ?, ?, ?, ?, ?)',
         [
           playerID,
           firstName,
           lastName,
           height,
-          teamID,
+          teamName,
           position,
           jerseyNumber
         ]);
@@ -120,7 +120,7 @@ class PlayerDb {
   Future<List<Player>> fetchPlayerByTeam(String team) async {
     final Database database = await DatabaseService().getDataBase();
     final players = await database
-        .rawQuery('SELECT * FROM $playerTableName WHERE teamID = ?', [team]);
+        .rawQuery('SELECT * FROM $playerTableName WHERE teamName = ?', [team]);
     return players.map((player) => Player.fromSqfliteDatbase(player)).toList();
   }
 
@@ -129,7 +129,7 @@ class PlayerDb {
       required firstName,
       required lastName,
       required height,
-      required teamID,
+      required teamName,
       required position,
       required jerseyNumber}) async {
     final Database database = await DatabaseService().getDataBase();
@@ -139,7 +139,7 @@ class PlayerDb {
           'firstName': firstName,
           'lastName': lastName,
           'height': height,
-          'teamID': teamID,
+          'teamName': teamName,
           'position': position,
           'jerseyNumber': jerseyNumber
         },
