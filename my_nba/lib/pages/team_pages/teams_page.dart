@@ -3,6 +3,7 @@ import 'package:my_nba/data/team_db.dart';
 import 'package:my_nba/pages/home_page.dart';
 import 'package:my_nba/models/team_model.dart';
 import 'package:my_nba/pages/team_pages/team_page.dart';
+import 'package:my_nba/pages/games_page/games_page.dart';
 import 'package:my_nba/pages/player_pages/players_page.dart';
 import 'package:my_nba/pages/team_pages/create_team_page.dart';
 
@@ -62,7 +63,7 @@ class _TeamsPageState extends State<TeamsPage> {
                 flexibleSpace: FlexibleSpaceBar(
                     centerTitle: true,
                     collapseMode: CollapseMode.parallax,
-                    title: const Text("All Teams",
+                    title: const Text("Teams",
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 22.0,
@@ -155,6 +156,17 @@ class _TeamsPageState extends State<TeamsPage> {
                 IconButton(
                   icon: const Icon(Icons.group),
                   onPressed: () {},
+                ),
+                IconButton(
+                  icon: const Icon(Icons.sports_basketball),
+                  onPressed: () {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const GamesPage(),
+                      ),
+                    );
+                  },
                 ),
               ],
             ),

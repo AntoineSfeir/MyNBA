@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:my_nba/data/player_db.dart';
 import 'package:my_nba/pages/home_page.dart';
 import 'package:my_nba/models/player_model.dart';
+import 'package:my_nba/pages/games_page/games_page.dart';
 import 'package:my_nba/pages/team_pages/teams_page.dart';
 import 'package:my_nba/pages/player_pages/player_page.dart';
 import 'package:my_nba/pages/player_pages/create_player_page.dart';
@@ -155,6 +156,17 @@ class _PlayersPageState extends State<PlayersPage> {
                       context,
                       MaterialPageRoute(
                           builder: (context) => const TeamsPage()),
+                    );
+                  },
+                ),
+                IconButton(
+                  icon: const Icon(Icons.sports_basketball),
+                  onPressed: () {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const GamesPage(),
+                      ),
                     );
                   },
                 ),
