@@ -22,6 +22,7 @@ class _GamePageState extends State<GamePage> {
   late TextEditingController courtController;
   late TextEditingController dateController;
   late TextEditingController timeController;
+  late TextEditingController scoreController;
 
   String homeTeam = "";
   String awayTeam = "";
@@ -40,7 +41,7 @@ class _GamePageState extends State<GamePage> {
 
   Future<int>? homeTeamTotalPoints;
   Future<int>? awayTeamTotalPoints;
-
+  int score = 0;
 
   @override
   void initState() {
@@ -51,6 +52,7 @@ class _GamePageState extends State<GamePage> {
     courtController = TextEditingController(text: widget.game.court);
     dateController = TextEditingController(text: widget.game.date);
     timeController = TextEditingController(text: widget.game.time);
+    scoreController = TextEditingController();
 
     homeTeam = widget.game.team1ID;
     awayTeam = widget.game.team2ID;
@@ -96,6 +98,7 @@ class _GamePageState extends State<GamePage> {
     courtController.dispose();
     dateController.dispose();
     timeController.dispose();
+    scoreController.dispose();
     super.dispose();
   }
 
@@ -134,19 +137,21 @@ class _GamePageState extends State<GamePage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Expanded(
+                flex: 2,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: <Widget>[
                     _buildDetailRow('Home:', homeTeam),
                     const Divider(),
                     _buildPlayerList(homeTeam, homeTeamPlayers),
-                      const Divider(),
+                    const Divider(),
                     _buildTotalScoreRow('Total Points:', homeTeamTotalPoints),
                   ],
                 ),
               ),
               const VerticalDivider(),
               Expanded(
+                flex: 2,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: <Widget>[
@@ -160,12 +165,13 @@ class _GamePageState extends State<GamePage> {
               ),
               const VerticalDivider(),
               Expanded(
+                flex: 1, // Adjust the flex factor as needed
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: <Widget>[
-                    _buildDetailRow('Court', court),
-                    _buildDetailRow('Date', date),
-                    _buildDetailRow('Time', time),
+                    _buildDetailRow('Court: ', court),
+                    _buildDetailRow('Date: ', date),
+                    _buildDetailRow('Time: ', time),
                   ],
                 ),
               ),
@@ -177,46 +183,45 @@ class _GamePageState extends State<GamePage> {
   }
 
   Widget _buildTotalScoreRow(String label, Future<int>? value) {
-  return Padding(
-    padding: const EdgeInsets.symmetric(vertical: 8.0),
-    child: FutureBuilder<int>(
-      future: value,
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return Text('Loading...'); // or a loading indicator
-        } else if (snapshot.hasError) {
-          return Text('Error: ${snapshot.error}');
-        } else {
-          return Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                label,
-                style: const TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: FutureBuilder<int>(
+        future: value,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Text('Loading...'); // or a loading indicator
+          } else if (snapshot.hasError) {
+            return Text('Error: ${snapshot.error}');
+          } else {
+            return Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  label,
+                  style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
-              ),
-              Text(
-                'Total Points: ${snapshot.data}',
-                style: const TextStyle(
-                  fontSize: 18,
+                Text(
+                  'Total Points: ${snapshot.data}',
+                  style: const TextStyle(
+                    fontSize: 18,
+                  ),
                 ),
-              ),
-            ],
-          );
-        }
-      },
-    ),
-  );
-}
-
+              ],
+            );
+          }
+        },
+      ),
+    );
+  }
 
   Widget _buildDetailRow(String label, String value) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Text(
             label,
@@ -263,21 +268,33 @@ class _GamePageState extends State<GamePage> {
       future: fetchScorePlayers(player.playerID),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return CircularProgressIndicator();
+          return const CircularProgressIndicator();
         } else if (snapshot.hasError) {
           return Text('Error: ${snapshot.error}');
         } else {
           Score? playerScore = snapshot.data;
 
+          score = playerScore!.pointsScored;
           return ListTile(
             title: Text('${player.firstName} ${player.lastName}'),
             subtitle: playerScore != null
                 ? Text(
-                    'Position: ${player.position}, Jersey: ${player.jerseyNumber}, Score: ${playerScore.pointsScored}',
+                    'Position: ${player.position}, Jersey Number: ${player.jerseyNumber}, Score: ${score}',
                   )
                 : Text(
                     'Position: ${player.position}, Jersey: ${player.jerseyNumber}, Score: No score available.',
                   ),
+            trailing: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                IconButton(
+                  icon: const Icon(Icons.edit),
+                  onPressed: () {
+                    _showEditScoreDialog(context, player, playerScore);
+                  },
+                ),
+              ],
+            ),
           );
         }
       },
@@ -368,5 +385,55 @@ class _GamePageState extends State<GamePage> {
       date: dateController.text,
       time: timeController.text,
     );
+  }
+
+  void _showEditScoreDialog(
+      BuildContext context, Player player, Score? playerScore) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Edit Player Score'),
+          content: SingleChildScrollView(
+            child: Column(
+              children: [
+                Text(
+                  'Player: ${player.firstName} ${player.lastName}',
+                  style: const TextStyle(fontWeight: FontWeight.bold),
+                ),
+                _buildTextField('New Score', scoreController),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () {
+                _updateScore(player.playerID);
+                Navigator.of(context).pop();
+              },
+              child: const Text('Save'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _updateScore(int playerID) {
+    setState(() {
+      score = int.parse(scoreController.text);
+    });
+    scoreDB.updateScore(
+      playerID: playerID,
+      gameID: widget.game.gameID,
+      pointsScored: int.parse(scoreController.text),
+    );
+    fetchTeamTotalPoints();
   }
 }
