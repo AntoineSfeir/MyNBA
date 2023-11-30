@@ -116,7 +116,7 @@ INSERT INTO teams (teamID, teamName, city, homecourt, division) VALUES
 
 INSERT INTO games (gameID, team1ID, team2ID, court, date, time) VALUES
     (1111, 'Rockets', 'Panthers', 'Rocket Arena', '2023-03-15', '18:00'),
-    (1112, 'Eagles', 'Blizzards', 'Eagle Nest', '2023-03-18', '19:30'),
+    -- (1112, 'Eagles', 'Blizzards', 'Eagle Nest', '2023-03-18', '19:30'),
 
     (2222, 'Tigers', 'Rockets', 'Tiger Stadium', '2023-03-20', '20:00'),
     (2223, 'Panthers', 'Eagles', 'Panther Park', '2023-03-23', '18:30'),

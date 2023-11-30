@@ -271,18 +271,17 @@ class _GamePageState extends State<GamePage> {
           return const CircularProgressIndicator();
         } else if (snapshot.hasError) {
           return Text('Error: ${snapshot.error}');
-        }else if(!snapshot.hasData) {
+        } else if (!snapshot.hasData) {
           return const Text('No data available');
-        }else {
+        } else {
           Score? playerScore = snapshot.data;
 
           score = playerScore!.pointsScored;
           return ListTile(
             title: Text('${player.firstName} ${player.lastName}'),
-            subtitle:Text(
-                    'Position: ${player.position}, Jersey Number: ${player.jerseyNumber}, Score: ${score}',
-                  )
-              ,
+            subtitle: Text(
+              'Position: ${player.position}, Jersey Number: ${player.jerseyNumber}, Score: ${score}',
+            ),
             trailing: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
