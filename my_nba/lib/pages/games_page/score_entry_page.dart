@@ -25,7 +25,8 @@ class ScoreEntryPage extends StatefulWidget {
 
 class _ScoreEntryPageState extends State<ScoreEntryPage> {
   // Create controllers for each score input field
-  List<TextEditingController> scoreControllers = [];
+  List<TextEditingController> homeScoreControllers = [];
+  List<TextEditingController> awayScoreControllers = [];
 
   Future<List<Player>>? homeTeamPlayers;
   Future<List<Player>>? awayTeamPlayers;
@@ -49,28 +50,34 @@ class _ScoreEntryPageState extends State<ScoreEntryPage> {
 
   void _initializeControllers() async {
     // Fetch players
-    List<Player> allPlayers = [];
+    List<Player> hPlayers = [];
+    List<Player> wPlayers = [];
 
     final homePlayers = await homeTeamPlayers;
     final awayPlayers = await awayTeamPlayers;
 
     if (homePlayers != null) {
-      allPlayers.addAll(homePlayers);
+      hPlayers.addAll(homePlayers);
     }
 
     if (awayPlayers != null) {
-      allPlayers.addAll(awayPlayers);
+      wPlayers.addAll(awayPlayers);
     }
 
     // Initialize scoreControllers with an empty controller for each player
-    scoreControllers =
-        List.generate(allPlayers.length, (_) => TextEditingController());
+    homeScoreControllers =
+        List.generate(hPlayers.length, (_) => TextEditingController());
+    awayScoreControllers =
+        List.generate(wPlayers.length, (_) => TextEditingController());
   }
 
   @override
   void dispose() {
     // Dispose controllers
-    for (var controller in scoreControllers) {
+    for (var controller in homeScoreControllers) {
+      controller.dispose();
+    }
+    for (var controller in awayScoreControllers) {
       controller.dispose();
     }
     super.dispose();
@@ -80,116 +87,129 @@ class _ScoreEntryPageState extends State<ScoreEntryPage> {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home:
-    Scaffold(
-      appBar: AppBar(title: const Text('Score Entry',),
-      backgroundColor: Colors.black,),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            Expanded(
-              child: FutureBuilder<List<Player>>(
-                future: homeTeamPlayers,
-                builder: (context, homeSnapshot) {
-                  if (homeSnapshot.hasData) {
-                    return FutureBuilder<List<Player>>(
-                      future: awayTeamPlayers,
-                      builder: (context, awaySnapshot) {
-                        if (awaySnapshot.hasData) {
-                          List<Player> homePlayers = [...homeSnapshot.data!];
-                          List<Player> awayPlayers = [...awaySnapshot.data!];
-                          return SizedBox(
-                            height: MediaQuery.of(context).size.height *
-                                0.7, // Set a height limit
-                            child: ListView.builder(
-                              itemCount: homePlayers.length,
-                              itemBuilder: (context, index) {
-                                Player homePlayer = homePlayers[index];
-                                Player awayPlayer = awayPlayers[index];
-                                return Row(
-                                  children: [
-                                    Expanded(
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(4.0),
-                                        child: Text(
-                                            '${homePlayer.firstName} ${homePlayer.lastName}'),
-                                      ),
-                                    ),
-                                    Expanded(
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(4.0),
-                                        child: TextField(
-                                          controller: scoreControllers[index],
-                                          keyboardType: TextInputType.number,
+      home: Scaffold(
+        appBar: AppBar(
+          title: const Text(
+            'Score Entry',
+          ),
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back),
+            onPressed: () {
+              // Add your back button functionality here
+              Navigator.pop(context);
+            },
+          ),
+          backgroundColor: Colors.black,
+        ),
+        body: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            children: [
+              Expanded(
+                child: FutureBuilder<List<Player>>(
+                  future: homeTeamPlayers,
+                  builder: (context, homeSnapshot) {
+                    if (homeSnapshot.hasData) {
+                      return FutureBuilder<List<Player>>(
+                        future: awayTeamPlayers,
+                        builder: (context, awaySnapshot) {
+                          if (awaySnapshot.hasData) {
+                            List<Player> homePlayers = [...homeSnapshot.data!];
+                            List<Player> awayPlayers = [...awaySnapshot.data!];
+                            return SizedBox(
+                              height: MediaQuery.of(context).size.height *
+                                  0.7, // Set a height limit
+                              child: ListView.builder(
+                                itemCount: homePlayers.length,
+                                itemBuilder: (context, index) {
+                                  Player homePlayer = homePlayers[index];
+                                  Player awayPlayer = awayPlayers[index];
+                                  return Row(
+                                    children: [
+                                      Expanded(
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(4.0),
+                                          child: Text(
+                                              '${homePlayer.firstName} ${homePlayer.lastName}'),
                                         ),
                                       ),
-                                    ),
-                                    const VerticalDivider(
-                                      color: Colors.black,
-                                      thickness: 1,
-                                    ),
-                                    Expanded(
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(4.0),
-                                        child: Text(
-                                            '${awayPlayer.firstName} ${awayPlayer.lastName}'),
-                                      ),
-                                    ),
-                                    Expanded(
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(4.0),
-                                        child: TextField(
-                                          controller: scoreControllers[index],
-                                          keyboardType: TextInputType.number,
+                                      Expanded(
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(4.0),
+                                          child: TextField(
+                                            controller:
+                                                homeScoreControllers[index],
+                                            keyboardType: TextInputType.number,
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                  ],
-                                );
-                              },
-                            ),
-                          );
-                        } else if (awaySnapshot.hasError) {
-                          return const Text('Error loading away team players');
-                        } else {
-                          return const Center(
-                              child: CircularProgressIndicator());
-                        }
-                      },
-                    );
-                  } else if (homeSnapshot.hasError) {
-                    return const Text('Error loading home team players');
-                  } else {
-                    return const Center(child: CircularProgressIndicator());
-                  }
-                },
+                                      const VerticalDivider(
+                                        color: Colors.black,
+                                        thickness: 1,
+                                      ),
+                                      Expanded(
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(4.0),
+                                          child: Text(
+                                              '${awayPlayer.firstName} ${awayPlayer.lastName}'),
+                                        ),
+                                      ),
+                                      Expanded(
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(4.0),
+                                          child: TextField(
+                                            controller:
+                                                awayScoreControllers[index],
+                                            keyboardType: TextInputType.number,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  );
+                                },
+                              ),
+                            );
+                          } else if (awaySnapshot.hasError) {
+                            return const Text(
+                                'Error loading away team players');
+                          } else {
+                            return const Center(
+                                child: CircularProgressIndicator());
+                          }
+                        },
+                      );
+                    } else if (homeSnapshot.hasError) {
+                      return const Text('Error loading home team players');
+                    } else {
+                      return const Center(child: CircularProgressIndicator());
+                    }
+                  },
+                ),
               ),
-            ),
-            ElevatedButton(
-              
-              onPressed: () async {
-                _saveScores();
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const GamesPage(),
-                  ),
-                );
-              },
-              child: const Text('Save'),
-            ),
-          ],
+              ElevatedButton(
+                onPressed: () async {
+                  _saveScores();
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const GamesPage(),
+                    ),
+                  );
+                },
+                child: const Text('Save'),
+              ),
+            ],
+          ),
         ),
       ),
-    ),
     );
-    
   }
 
   void _saveScores() async {
     // Assuming that homeTeamPlayers and awayTeamPlayers are already fetched with player information
     List<Player> allPlayers = [];
+
+    List<int> allScores = [];
 
     final homePlayers = await homeTeamPlayers;
     final awayPlayers = await awayTeamPlayers;
@@ -200,8 +220,20 @@ class _ScoreEntryPageState extends State<ScoreEntryPage> {
     if (awayPlayers != null) {
       allPlayers.addAll(awayPlayers);
     }
+
+    for(int i = 0; i < homeScoreControllers.length; i++){
+      int score = int.tryParse(homeScoreControllers[i].text) ?? 0;
+      allScores.add(score);
+    }
+
+    for(int i = 0; i < awayScoreControllers.length; i++){
+      int score = int.tryParse(awayScoreControllers[i].text) ?? 0;
+      allScores.add(score);
+    }
+
+
     for (int i = 0; i < allPlayers.length; i++) {
-      int score = int.tryParse(scoreControllers[i].text) ?? 0;
+      int score = allScores[i];
 
       await scoreDB.insertScore(
           playerID: allPlayers[i].playerID,
