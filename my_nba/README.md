@@ -5,7 +5,7 @@ Our application user interface comes equipped with features such as adding, edit
 
 To run the application in VSCode, one must first have Flutter downloaded as well as all other necessary components. The next step is to simply enter the command "cd my_nba" in the terminal panel, followed by the command "flutter pub get" to gather the dependencies, then finally "flutter run". After these commands you will be prompted to choose which device you are running the application on. Make sure you run on the LOCAL machine because the db requires it to be locally run because it can't be accessed on the web. After you run the app, the most important step is to click the botton right red button on the home page to reload the database.
 
-If you are having problems running, you might need to run thus command from my_nba directory:
+If you are having problems running on Mac, you might need to run thus command from my_nba directory:
 rm macos/Podfile.lock && cd macos && pod install && cd .. && flutter pub get
 
 Then try running again.
