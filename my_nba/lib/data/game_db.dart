@@ -5,4 +5,8 @@ import 'package:my_nba/data/database_service.dart';
 class GameDb {
   final gameTableName = "games";
 
+  Future<void> createGameTable(Database) async {
+   
+
+  }
 }

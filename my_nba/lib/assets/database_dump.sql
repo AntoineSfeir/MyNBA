@@ -126,7 +126,14 @@ INSERT INTO games (gameID, team1ID, team2ID, court, date, time) VALUES
     (6667, 'Dragons', 'Phoenix', 'Dragon Court', '2023-03-28', '20:00');
 
 
-
+CREATE TABLE scores (
+    playerID INT,
+    gameID INT,
+    pointsScored INT,
+    PRIMARY KEY (playerID, gameID),
+    FOREIGN KEY (playerID) REFERENCES players(playerID),
+    FOREIGN KEY (gameID) REFERENCES games(gameID)
+);
 
 
 --Adds Scores For Rockets
