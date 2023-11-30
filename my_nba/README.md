@@ -14,18 +14,18 @@ Hopefully this works, the last resort if you are still having problems is it mig
 
 For all other relevant information and documentation regarding how to set up the application given our code can be found in the links below. 
 
+## TEST QUERIES: 
+located in my_nba/testQueries.session.sql also in the report
+Click the red button on the bottom right of the homepage to reload the database!!
 
-## Getting Started
 
-This project is a starting point for a Flutter application.
+## Setup links
 
-A few resources to get you started if this is your first Flutter project:
+https://docs.flutter.dev/get-started/install
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+https://docs.flutter.dev/get-started/editor
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+https://docs.flutter.dev/tools/vs-code
 
+https://www.geeksforgeeks.org/how-to-install-flutter-on-visual-studio-code/
  
