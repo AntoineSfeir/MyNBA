@@ -14,6 +14,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final TextEditingController _queryController = TextEditingController();
   final SqlConsole _sqlConsole = SqlConsole();
+    final ScrollController _scrollController = ScrollController();
 
   String _queryResult = '';
   bool _sqlSectionVisible = false;
@@ -169,26 +170,22 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget _buildSqlSection() {
-    return Expanded(
+   Widget _buildSqlSection() {
+    return SingleChildScrollView(
+      controller: _scrollController,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           _buildResizableTextField(),
           const SizedBox(height: 16),
-          const Text('Output',
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+          const Text('Output', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
           const SizedBox(height: 8),
-          Expanded(
-            child: SingleChildScrollView(
-              child: Container(
-                color: Colors.grey[300],
-                padding: const EdgeInsets.all(16.0),
-                child: Text(
-                  _queryResult,
-                  style: const TextStyle(fontSize: 16.0),
-                ),
-              ),
+          Container(
+            color: Colors.grey[300],
+            padding: const EdgeInsets.all(16.0),
+            child: Text(
+              _queryResult,
+              style: const TextStyle(fontSize: 16.0),
             ),
           ),
         ],
@@ -197,12 +194,17 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _adjustTextFieldSize() {
-    // Implement the logic to adjust the size of the text field here
-    // For example, increase the number of maxLines
     setState(() {
-      _queryController.text += '\n'; // Add a new line
+      _queryController.text += '\n';
       _queryController.selection = TextSelection.collapsed(
         offset: _queryController.text.length,
+      );
+
+      // Scroll to the bottom when adding a new line
+      _scrollController.animateTo(
+        _scrollController.position.maxScrollExtent,
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeOut,
       );
     });
   }
