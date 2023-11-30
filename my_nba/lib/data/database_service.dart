@@ -4,7 +4,6 @@ import 'package:my_nba/data/game_db.dart';
 import 'package:my_nba/data/team_db.dart';
 import 'package:my_nba/data/score_db.dart';
 import 'package:my_nba/data/player_db.dart';
-import 'package:my_nba/models/score_model.dart';
 
 class DatabaseService {
   Database? _database;

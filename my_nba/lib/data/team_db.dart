@@ -64,6 +64,13 @@ class TeamDb {
     return Team.fromSqfliteDatbase(team.first);
   }
 
+  Future<Team> fetchTeamByName(String teamName) async {
+    final Database database = await DatabaseService().getDataBase();
+    final team = await database.rawQuery(
+        'SELECT * FROM $teamTableName WHERE teamName = ?', [teamName]);
+    return Team.fromSqfliteDatbase(team.first);
+  }
+
   Future<int> updateTeam(
       {required teamID,
       required teamName,

@@ -2,6 +2,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:my_nba/data/game_db.dart';
 import 'package:my_nba/data/team_db.dart';
+import 'package:my_nba/models/team_model.dart';
 
 class CreateGamePage extends StatefulWidget {
   const CreateGamePage({Key? key}) : super(key: key);
@@ -13,7 +14,6 @@ class CreateGamePage extends StatefulWidget {
 class _CreateGameState extends State<CreateGamePage> {
   late TextEditingController team1IDController;
   late TextEditingController team2IDController;
-  late TextEditingController courtController;
   late TextEditingController dateController;
   late TextEditingController timeController;
 
@@ -25,7 +25,6 @@ class _CreateGameState extends State<CreateGamePage> {
     super.initState();
     team1IDController = TextEditingController();
     team2IDController = TextEditingController();
-    courtController = TextEditingController();
     dateController = TextEditingController();
     timeController = TextEditingController();
   }
@@ -34,7 +33,6 @@ class _CreateGameState extends State<CreateGamePage> {
   void dispose() {
     team1IDController.dispose();
     team2IDController.dispose();
-    courtController.dispose();
     dateController.dispose();
     timeController.dispose();
     super.dispose();
@@ -62,11 +60,6 @@ class _CreateGameState extends State<CreateGamePage> {
             ),
             const SizedBox(height: 16),
             TextField(
-              controller: courtController,
-              decoration: const InputDecoration(labelText: 'Court'),
-            ),
-            const SizedBox(height: 16),
-            TextField(
               controller: dateController,
               decoration: const InputDecoration(labelText: 'Date'),
             ),
@@ -81,6 +74,7 @@ class _CreateGameState extends State<CreateGamePage> {
               child: ElevatedButton(
                 onPressed: () {
                   _saveGame();
+                  Navigator.pop(context);
                 },
                 child: const Text('Add Game'),
               ),
@@ -91,19 +85,25 @@ class _CreateGameState extends State<CreateGamePage> {
     );
   }
 
-  void _saveGame() {
+  void _saveGame() async {
+    Team thisHomeTeam = await teamDB.fetchTeamByName(team1IDController.text);
 
-    
+    Team thisAwayTeam = await teamDB.fetchTeamByName(team2IDController.text);
+
+    String homeTeam = thisHomeTeam.teamName;
+    String awayTeam = thisAwayTeam.teamName;
+    if(homeTeam.isEmpty || awayTeam.isEmpty){
+      return;
+    }
+
     int gameID = Random().nextInt(10000);
     gameDb.insertGame(
       gameID: gameID,
       team1ID: team1IDController.text,
       team2ID: team2IDController.text,
-      court: courtController.text,
+      court: thisHomeTeam.homecourt,
       date: dateController.text,
       time: timeController.text,
     );
-    Navigator.pop(context);
   }
 }
-

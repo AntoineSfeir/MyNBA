@@ -4,7 +4,7 @@ import 'package:my_nba/pages/home_page.dart';
 import 'package:my_nba/models/game_model.dart';
 import 'package:my_nba/pages/team_pages/teams_page.dart';
 import 'package:my_nba/pages/player_pages/players_page.dart';
-import 'package:my_nba/pages/games_page/create_game_pafe.dart';
+import 'package:my_nba/pages/games_page/create_game_page.dart';
 
 class GamesPage extends StatefulWidget {
   const GamesPage({Key? key}) : super(key: key);
@@ -84,7 +84,7 @@ class _GamesPageState extends State<GamesPage> {
                     return const Center(child: CircularProgressIndicator());
                   } else if (snapshot.hasError) {
                     // If the Future throws an error, display an error message
-                    return Center(child: Text('Error: ${snapshot.error}'));
+                    return Center(child: SelectableText('Error: ${snapshot.error}'));
                   } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
                     // If the Future is completed but no data is available, show a message
                     return const Center(child: Text('No Teams available.'));
