@@ -84,8 +84,8 @@ class GameDb {
     required String team1ID,
     required String team2ID,
     required String court,
-    required DateTime date,
-    required DateTime time,
+    required String date,
+    required String time,
   }) async {
     final Database database = await DatabaseService().getDataBase();
     return await database.update(

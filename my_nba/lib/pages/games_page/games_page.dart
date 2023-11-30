@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:my_nba/data/game_db.dart';
 import 'package:my_nba/pages/home_page.dart';
 import 'package:my_nba/models/game_model.dart';
+import 'package:my_nba/pages/games_page/game_page.dart';
 import 'package:my_nba/pages/team_pages/teams_page.dart';
 import 'package:my_nba/pages/player_pages/players_page.dart';
 import 'package:my_nba/pages/games_page/create_game_page.dart';
@@ -95,10 +96,25 @@ class _GamesPageState extends State<GamesPage> {
                         return Card(
                           child: ListTile(
                             title: Text(
-                                '${snapshot.data![index].team1ID} VS ${snapshot.data![index].team2ID}'),
+                                '${snapshot.data![index].team1ID} VS ${snapshot.data![index].team2ID}',
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.bold)),
                             subtitle:
                                 Text(snapshot.data![index].date.toString()),
                             trailing: Text(snapshot.data![index].court),
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => GamePage(
+                                    game: snapshot.data![index],
+                                  ),
+                                ),
+                              ).then((_) {
+                                // Reload the players when returning from the create player page
+                                fetchGames();
+                              });
+                            },
                           ),
                         );
                       },
