@@ -9,6 +9,33 @@ CREATE TABLE players (
 );
 
 
+CREATE TABLE teams (
+    teamID INT PRIMARY KEY,
+    teamName VARCHAR(50),
+    city VARCHAR(50),
+    homecourt VARCHAR(50),
+    division VARCHAR(50)
+);
+
+CREATE TABLE games (
+    gameID INT PRIMARY KEY,
+    team1ID VARCHAR(50),
+    team2ID VARCHAR(50),
+    court VARCHAR(50),
+    date TEXT,
+    time TIME
+);
+
+
+CREATE TABLE scores (
+    playerID INT,
+    gameID INT,
+    pointsScored INT,
+    PRIMARY KEY (playerID, gameID),
+    FOREIGN KEY (playerID) REFERENCES players(playerID),
+    FOREIGN KEY (gameID) REFERENCES games(gameID)
+);
+
 INSERT INTO players (playerID, firstName, lastName, height, teamID, position, jerseyNumber) VALUES
     (11111, 'John', 'Doe', 75, 'Rockets', 'Point Guard', 43),
     (11112, 'Michael', 'Johnson', 79, 'Rockets', 'Shooting Guard', 12),
@@ -23,22 +50,22 @@ INSERT INTO players (playerID, firstName, lastName, height, teamID, position, je
     (22226, 'David', 'White', 79, 'Panthers', 'Center', 98),
 
     (33333, 'Aaron', 'Smith', 75, 'Tigers', 'Point Guard', 34),
-    (33334, 'Ashley', 'Jones', 77, 'Tigers', 'Shooting Guard', 89),
+    (33334, 'Ashley', 'Jones', 77, 'Tigers', 'Shooting Guard', 23),
     (33335, 'Jordan', 'Martinez', 79, 'Tigers', 'Small Forward', 44),
-    (33336, 'Taylor', 'Thomas', 81, 'Tigers', 'Power Forward', 23),
+    (33336, 'Taylor', 'Thomas', 81, 'Tigers', 'Power Forward', 89),
     (33337, 'Ryan', 'Garcia', 80, 'Tigers', 'Center', 35),
 
-    (44444, 'Cameron', 'Brown', 72, 'Braves', 'Point Guard', 24),
-    (44445, 'Olivia', 'Clark', 74, 'Braves', 'Shooting Guard', 1),
-    (44446, 'Dylan', 'Hernandez', 78, 'Braves', 'Small Forward', 45),
-    (44447, 'Alexis', 'Young', 80, 'Braves', 'Power Forward', 33),
-    (44448, 'Jordan', 'Scott', 84, 'Braves', 'Center', 56),
+    (44444, 'Cameron', 'Brown', 72, 'Blizzards', 'Point Guard', 24),
+    (44445, 'Olivia', 'Clark', 74, 'Blizzards', 'Shooting Guard', 3),
+    (44446, 'Dylan', 'Hernandez', 78, 'Blizzards', 'Small Forward', 45),
+    (44447, 'Alexis', 'Young', 80, 'Blizzards', 'Power Forward', 33),
+    (44448, 'Jordan', 'Scott', 84, 'Blizzards', 'Center', 56),
 
-    (55555, 'Jackson', 'Smith', 72, 'Magic', 'Point Guard', 40),
-    (55556, 'Emma', 'Johnson', 76, 'Magic', 'Shooting Guard', 68),
-    (55557, 'Ethan', 'Harris', 78, 'Magic', 'Small Forward', 42),
-    (55558, 'Madison', 'Wilson', 81, 'Magic', 'Power Forward', 16),
-    (55559, 'Logan', 'Miller', 83, 'Magic', 'Center', 99);
+    (55555, 'Jackson', 'Smith', 72, 'Eagles', 'Point Guard', 40),
+    (55556, 'Emma', 'Johnson', 76, 'Eagles', 'Shooting Guard', 68),
+    (55557, 'Ethan', 'Harris', 78, 'Eagles', 'Small Forward', 42),
+    (55558, 'Madison', 'Wilson', 81, 'Eagles', 'Power Forward', 16),
+    (55559, 'Logan', 'Miller', 83, 'Eagles', 'Center', 99);
 
 
 INSERT INTO players (playerID, firstName, lastName, height, teamID, position, jerseyNumber) VALUES
@@ -66,43 +93,25 @@ INSERT INTO players (playerID, firstName, lastName, height, teamID, position, je
     (99996, 'Alyssa', 'Harris', 82, 'Wolves', 'Power Forward', 38),
     (99995, 'Ella', 'Scott', 84, 'Wolves', 'Center', 39),
 
-    (88894, 'Logan', 'Garcia', 73, '76ers', 'Point Guard', 45),
-    (88895, 'Zoe', 'Wilson', 75, '76ers', 'Shooting Guard', 46),
-    (88896, 'Mason', 'Brown', 77, '76ers', 'Small Forward', 47),
-    (88897, 'Ava', 'Johnson', 80, '76ers', 'Power Forward', 48),
-    (88898, 'Noah', 'Smith', 82, '76ers', 'Center', 49);
+    (88894, 'Logan', 'Garcia', 73, 'Phoenix', 'Point Guard', 15),
+    (88895, 'Zoe', 'Wilson', 75, 'Phoenix', 'Shooting Guard', 19),
+    (88896, 'Mason', 'Brown', 77, 'Phoenix', 'Small Forward', 5),
+    (88897, 'Ava', 'Johnson', 80, 'Phoenix', 'Power Forward', 38),
+    (88898, 'Noah', 'Smith', 82, 'Phoenix', 'Center', 10);
 
 
-CREATE TABLE teams (
-          teamID INT PRIMARY KEY,
-          teamName VARCHAR(50),
-          city VARCHAR(50),
-          homecourt VARCHAR(50),
-          division VARCHAR(50)
-);
+INSERT INTO teams (teamID, teamName, city, homecourt, division) VALUES
+    (1001, 'Rockets', 'Houston', 'Rocket Arena', 'Division Gamma'),
+    (1002, 'Dragons', 'Los Angeles', 'Dragon Court', 'Division Gamma'),
+    (1003, 'Thunder', 'Oklahoma City', 'Thunder Dome', 'Division Gamma'),
+    (1004, 'Tigers', 'Detroit', 'Tiger Stadium', 'Division Gamma'),
+    (1005, 'Eagles', 'Philadelphia', 'Eagle Nest', 'Division Gamma'),
+    (1006, 'Panthers', 'Miami', 'Panther Park', 'Division Alpha'),
+    (1007, 'Spartans', 'New York', 'Spartan Coliseum', 'Division Alpha'),
+    (1008, 'Blizzards', 'Denver', 'Blizzard Arena', 'Division Alpha'),
+    (1009, 'Wolves', 'Minneapolis', 'Wolf Den', 'Division Alpha'),
+    (1010, 'Phoenix', 'Phoenix', 'Phoenix Court', 'Division Alpha');
 
- INSERT INTO teams (teamID, teamName, city, homecourt, division)
-      VALUES
-        (1001, 'Rockets', 'Houston', 'Rocket Arena', 'Division Gamma'),
-        (1002, 'Dragons', 'Los Angeles', 'Dragon Court', 'Division Gamma'),
-        (1003, 'Thunder', 'Oklahoma City', 'Thunder Dome', 'Division Gamma'),
-        (1004, 'Tigers', 'Detroit', 'Tiger Stadium', 'Division Gamma'),
-        (1005, 'Eagles', 'Philadelphia', 'Eagle Nest', 'Division Gamma'),
-        (1006, 'Panthers', 'Miami', 'Panther Park', 'Division Alpha'),
-        (1007, 'Spartans', 'New York', 'Spartan Coliseum', 'Division Alpha'),
-        (1008, 'Blizzards', 'Denver', 'Blizzard Arena', 'Division Alpha'),
-        (1009, 'Wolves', 'Minneapolis', 'Wolf Den', 'Division Alpha'),
-        (1010, 'Phoenix', 'Phoenix', 'Phoenix Court', 'Division Alpha');
-
-        
-CREATE TABLE games (
-    gameID INT PRIMARY KEY,
-    team1ID VARCHAR(50),
-    team2ID VARCHAR(50),
-    court VARCHAR(50),
-    date DATE,
-    time TIME
-);
 
 INSERT INTO games (gameID, team1ID, team2ID, court, date, time) VALUES
     (1111, 'Rockets', 'Panthers', 'Rocket Arena', '2023-03-15', '18:00'),
@@ -126,14 +135,7 @@ INSERT INTO games (gameID, team1ID, team2ID, court, date, time) VALUES
     (6667, 'Dragons', 'Phoenix', 'Dragon Court', '2023-03-28', '20:00');
 
 
-CREATE TABLE scores (
-    playerID INT,
-    gameID INT,
-    pointsScored INT,
-    PRIMARY KEY (playerID, gameID),
-    FOREIGN KEY (playerID) REFERENCES players(playerID),
-    FOREIGN KEY (gameID) REFERENCES games(gameID)
-);
+
 
 
 --Adds Scores For Rockets

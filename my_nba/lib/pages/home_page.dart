@@ -131,6 +131,44 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  Widget _buildResizableTextField() {
+    return TextField(
+      controller: _queryController,
+      maxLines: null, // Set maxLines to null for multiline support
+      decoration: InputDecoration(
+        labelText: 'SQL Console',
+        filled: true,
+        fillColor: Colors.grey[300],
+        suffixIcon: IconButton(
+          icon: const Icon(Icons.play_arrow),
+          onPressed: () {
+            setState(() {
+              final List<String> queries = _queryController.text
+                  .split(';')
+                  .map((e) => e.trim())
+                  .toList();
+              final List<String> results = [];
+
+              for (final String query in queries) {
+                if (query.isNotEmpty) {
+                  _sqlConsole.runQuery(query).then((value) {
+                    results.add(value);
+                    _queryResult = results.join('\n' + '-' * 40 + '\n');
+                  });
+                }
+              }
+            });
+          },
+        ),
+      ),
+      textInputAction: TextInputAction.newline,
+      onEditingComplete: () {
+        // Adjust the size of the text field when Enter is pressed
+        _adjustTextFieldSize();
+      },
+    );
+  }
+
   Widget _buildSqlSection() {
     return Expanded(
       child: Column(
@@ -155,33 +193,6 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
-    );
-  }
-
-  Widget _buildResizableTextField() {
-    return TextField(
-      controller: _queryController,
-      maxLines: null, // Set maxLines to null for multiline support
-      decoration: InputDecoration(
-        labelText: 'SQL Console',
-        filled: true,
-        fillColor: Colors.grey[300],
-        suffixIcon: IconButton(
-          icon: const Icon(Icons.play_arrow),
-          onPressed: () {
-            setState(() {
-              _sqlConsole
-                  .runQuery(_queryController.text)
-                  .then((value) => _queryResult = value);
-            });
-          },
-        ),
-      ),
-      textInputAction: TextInputAction.newline,
-      onEditingComplete: () {
-        // Adjust the size of the text field when Enter is pressed
-        _adjustTextFieldSize();
-      },
     );
   }
 

@@ -63,11 +63,20 @@ class _TeamsPageState extends State<TeamsPage> {
                 flexibleSpace: FlexibleSpaceBar(
                     centerTitle: true,
                     collapseMode: CollapseMode.parallax,
-                    title: const Text("Teams",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 22.0,
-                        )),
+                    title: Container(
+                      padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0), // Adjust padding as needed
+                      decoration: BoxDecoration(
+                        color: Colors.black.withOpacity(0.9),
+                        borderRadius: BorderRadius.circular(15.0),
+                      ),
+                      child: const Text(
+                        "Teams",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 22.0,
+                      ),
+                    ),
+                  ),
                     background: Image.network(
                       "https://wallpapers.com/images/hd/nba-team-logos-7dyfrznb0x44wxup.jpg",
                       fit: BoxFit.cover,
