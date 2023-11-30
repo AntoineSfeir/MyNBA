@@ -183,25 +183,27 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _buildSqlSection() {
-    return SingleChildScrollView(
-      controller: _scrollController,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          _buildResizableTextField(),
-          const SizedBox(height: 16),
-          const Text('Output',
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
-          const SizedBox(height: 8),
-          Container(
-            color: Colors.grey[300],
-            padding: const EdgeInsets.all(16.0),
-            child: Text(
-              _queryResult,
-              style: const TextStyle(fontSize: 16.0),
+    return Expanded(
+      child: SingleChildScrollView(
+        controller: _scrollController,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            _buildResizableTextField(),
+            const SizedBox(height: 16),
+            const Text('Output',
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+            const SizedBox(height: 8),
+            Container(
+              color: Colors.grey[300],
+              padding: const EdgeInsets.all(16.0),
+              child: Text(
+                _queryResult,
+                style: const TextStyle(fontSize: 16.0),
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
