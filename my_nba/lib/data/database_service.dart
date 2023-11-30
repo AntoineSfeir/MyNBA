@@ -9,10 +9,8 @@ class DatabaseService {
   Future<Database> getDataBase() async {
     _database = await _initialize();
     if (_database != null) {
-      print('Database is available');
       return _database!;
     } else {
-      print('Database is not available');
       _database = await _initialize();
       return _database!;
     }
@@ -38,6 +36,5 @@ class DatabaseService {
   Future<void> create(Database database, int version) async {
       await PlayerDb().createPlayerTable(database);
       await TeamDb().createTeamTable(database);
-     print('Database tables created.');
   }
 }
