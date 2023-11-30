@@ -2,7 +2,6 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:my_nba/data/team_db.dart';
 
-
 class CreateTeamPage extends StatefulWidget {
   const CreateTeamPage({super.key});
 
@@ -20,29 +19,40 @@ class _CreateTeamPageState extends State<CreateTeamPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Create Team'),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _buildTextField('Team Name', _teamNameController),
-              _buildTextField('City', _cityController),
-              _buildTextField('Homecourt', _homecourtController),
-              _buildTextField('Division', _divisionController),
-              const SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: () {
-                  _saveTeam();
-                },
-                child: const Text('Create Team'),
-              ),
-            ],
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.black,
+          title: const Text('Create Team'),
+           leading: IconButton(
+            icon: const Icon(Icons.arrow_back),
+            onPressed: () {
+              // Add your back button functionality here
+              Navigator.pop(context);
+            },
+          ),
+        ),
+        body: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _buildTextField('Team Name', _teamNameController),
+                _buildTextField('City', _cityController),
+                _buildTextField('Homecourt', _homecourtController),
+                _buildTextField('Division', _divisionController),
+                const SizedBox(height: 20),
+                ElevatedButton(
+                  onPressed: () {
+                    _saveTeam();
+                  },
+                  child: const Text('Create Team'),
+                ),
+              ],
+            ),
           ),
         ),
       ),

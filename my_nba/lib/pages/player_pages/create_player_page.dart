@@ -2,7 +2,6 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:my_nba/data/player_db.dart';
 
-
 class CreatePlayerPage extends StatefulWidget {
   const CreatePlayerPage({super.key});
 
@@ -22,29 +21,40 @@ class _CreatePlayerPageState extends State<CreatePlayerPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Create Player'),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _buildTextField('First Name', firstNameController),
-            _buildTextField('Last Name', lastNameController),
-            _buildTextField('Height (in inches)', heightController),
-            _buildTextField('Team', teamController),
-            _buildTextField('Position', positionController),
-            _buildTextField('Jersey Number', jerseyNumberController),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                _savePlayer();
-              },
-              child: const Text('Add Player'),
-            ),
-          ],
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: Scaffold(
+        appBar: AppBar(
+          title: const Text('Create Player'),
+          backgroundColor: Colors.black,
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back),
+            onPressed: () {
+              // Add your back button functionality here
+              Navigator.pop(context);
+            },
+          ),
+        ),
+        body: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _buildTextField('First Name', firstNameController),
+              _buildTextField('Last Name', lastNameController),
+              _buildTextField('Height (in inches)', heightController),
+              _buildTextField('Team', teamController),
+              _buildTextField('Position', positionController),
+              _buildTextField('Jersey Number', jerseyNumberController),
+              const SizedBox(height: 20),
+              ElevatedButton(
+                onPressed: () {
+                  _savePlayer();
+                },
+                child: const Text('Add Player'),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -64,7 +74,8 @@ class _CreatePlayerPageState extends State<CreatePlayerPage> {
 
   void _savePlayer() {
     // Generate a random playerID using Dart's Random class
-    int playerID = Random().nextInt(10000); // Adjust the range based on your requirements
+    int playerID =
+        Random().nextInt(10000); // Adjust the range based on your requirements
 
     // Get other player details from controllers
     String firstName = firstNameController.text;
@@ -76,7 +87,8 @@ class _CreatePlayerPageState extends State<CreatePlayerPage> {
 
     // Save the player details to the database
     db.insertPlayer(
-      playerID: playerID.toString(), // Convert to string if your database expects it as a string
+      playerID: playerID
+          .toString(), // Convert to string if your database expects it as a string
       firstName: firstName,
       lastName: lastName,
       height: height,
@@ -86,6 +98,7 @@ class _CreatePlayerPageState extends State<CreatePlayerPage> {
     );
 
     // After saving, you can navigate back or perform other actions
-    Navigator.pop(context, true); // Return true to indicate that a new player was added
+    Navigator.pop(
+        context, true); // Return true to indicate that a new player was added
   }
 }
