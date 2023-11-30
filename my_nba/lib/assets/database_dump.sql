@@ -72,28 +72,29 @@ INSERT INTO players (playerID, firstName, lastName, height, teamID, position, je
     (88897, 'Ava', 'Johnson', 80, '76ers', 'Power Forward', 48),
     (88898, 'Noah', 'Smith', 82, '76ers', 'Center', 49);
 
+
 CREATE TABLE teams (
-    teamID VARCHAR(50) PRIMARY KEY,
-    city VARCHAR(50),
-    homeCourt VARCHAR(50),
-    division VARCHAR(50)
+          teamID INT PRIMARY KEY,
+          teamName VARCHAR(50),
+          city VARCHAR(50),
+          homecourt VARCHAR(50),
+          division VARCHAR(50)
 );
 
-INSERT INTO teams (teamID, city, homeCourt, division) VALUES
-    ('Rockets', 'Houston', 'Rocket Arena', 'Division 1'),
-    ('Dragons', 'Los Angeles', 'Dragon Court', 'Division 1'),
-    ('Thunder', 'Oklahoma City', 'Thunder Dome', 'Division 1'),
-    ('Tigers', 'Detroit', 'Tiger Stadium', 'Division 1'),
-    ('Eagles', 'Philadelphia', 'Eagle Nest', 'Division 1');
+ INSERT INTO teams (teamID, teamName, city, homecourt, division)
+      VALUES
+        (1001, 'Rockets', 'Houston', 'Rocket Arena', 'Division Gamma'),
+        (1002, 'Dragons', 'Los Angeles', 'Dragon Court', 'Division Gamma'),
+        (1003, 'Thunder', 'Oklahoma City', 'Thunder Dome', 'Division Gamma'),
+        (1004, 'Tigers', 'Detroit', 'Tiger Stadium', 'Division Gamma'),
+        (1005, 'Eagles', 'Philadelphia', 'Eagle Nest', 'Division Gamma'),
+        (1006, 'Panthers', 'Miami', 'Panther Park', 'Division Alpha'),
+        (1007, 'Spartans', 'New York', 'Spartan Coliseum', 'Division Alpha'),
+        (1008, 'Blizzards', 'Denver', 'Blizzard Arena', 'Division Alpha'),
+        (1009, 'Wolves', 'Minneapolis', 'Wolf Den', 'Division Alpha'),
+        (1010, 'Phoenix', 'Phoenix', 'Phoenix Court', 'Division Alpha');
 
-
-INSERT INTO teams (teamID, city, homeCourt, division) VALUES
-    ('Panthers', 'Miami', 'Panther Park', 'Division 2'),
-    ('Spartans', 'New York', 'Spartan Coliseum', 'Division 2'),
-    ('Blizzards', 'Denver', 'Blizzard Arena', 'Division 2'),
-    ('Wolves', 'Minneapolis', 'Wolf Den', 'Division 2'),
-    ('Phoenix', 'Phoenix', 'Phoenix Court', 'Division 2');
-
+        
 CREATE TABLE games (
     gameID INT PRIMARY KEY,
     team1ID VARCHAR(50),

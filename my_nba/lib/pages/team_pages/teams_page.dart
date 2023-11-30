@@ -94,7 +94,7 @@ class _TeamsPageState extends State<TeamsPage> {
                     Team team = snapshot.data![index];
                     return ListTile(
                       title: Text(
-                        team.teamID,
+                        team.teamName,
                         style: const TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 16.0,

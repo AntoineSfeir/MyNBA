@@ -8,7 +8,8 @@ class TeamDb {
   Future<void> createTeamTable(Database database) async {
     await database.execute('''
         CREATE TABLE teams (
-          teamID VARCHAR(50) PRIMARY KEY,
+          teamID INT PRIMARY KEY,
+          teamName VARCHAR(50),
           city VARCHAR(50),
           homecourt VARCHAR(50),
           division VARCHAR(50)
@@ -16,30 +17,33 @@ class TeamDb {
       ''');
 
     await database.execute('''
-      INSERT INTO teams (teamID, city, homecourt, division)VALUES
-        ('Rockets', 'Houston', 'Rocket Arena', 'Division Gamma'),
-        ('Dragons', 'Los Angeles', 'Dragon Court', 'Division Gamma'),
-        ('Thunder', 'Oklahoma City', 'Thunder Dome', 'Division Gamma'),
-        ('Tigers', 'Detroit', 'Tiger Stadium', 'Division Gamma'),
-        ('Eagles', 'Philadelphia', 'Eagle Nest', 'Division Gamma'),
-        ('Panthers', 'Miami', 'Panther Park', 'Division Alpha'),
-        ('Spartans', 'New York', 'Spartan Coliseum', 'Division Alpha'),
-        ('Blizzards', 'Denver', 'Blizzard Arena', 'Division Alpha'),
-        ('Wolves', 'Minneapolis', 'Wolf Den', 'Division Alpha'),
-        ('Phoenix', 'Phoenix', 'Phoenix Court', 'Division Alpha');
+     INSERT INTO teams (teamID, teamName, city, homecourt, division)
+      VALUES
+        (1001, 'Rockets', 'Houston', 'Rocket Arena', 'Division Gamma'),
+        (1002, 'Dragons', 'Los Angeles', 'Dragon Court', 'Division Gamma'),
+        (1003, 'Thunder', 'Oklahoma City', 'Thunder Dome', 'Division Gamma'),
+        (1004, 'Tigers', 'Detroit', 'Tiger Stadium', 'Division Gamma'),
+        (1005, 'Eagles', 'Philadelphia', 'Eagle Nest', 'Division Gamma'),
+        (1006, 'Panthers', 'Miami', 'Panther Park', 'Division Alpha'),
+        (1007, 'Spartans', 'New York', 'Spartan Coliseum', 'Division Alpha'),
+        (1008, 'Blizzards', 'Denver', 'Blizzard Arena', 'Division Alpha'),
+        (1009, 'Wolves', 'Minneapolis', 'Wolf Den', 'Division Alpha'),
+        (1010, 'Phoenix', 'Phoenix', 'Phoenix Court', 'Division Alpha');
    ''');
   }
 
   Future<int> insertTeam(
       {required teamID,
+      required teamName,
       required city,
       required homecourt,
       required division}) async {
     final Database database = await DatabaseService().getDataBase();
     return await database.rawInsert(
-        'INSERT INTO $teamTableName (teamID, city, homecourt, division) VALUES(?, ?, ?, ?)',
+        'INSERT INTO $teamTableName (teamID, teamName, city, homecourt, division) VALUES(?, ?, ?, ?, ?)',
         [
           teamID,
+          teamName,
           city,
           homecourt,
           division,
@@ -63,14 +67,16 @@ class TeamDb {
 
   Future<int> updateTeam(
       {required teamID,
+      required teamName,
       required city,
       required homecourt,
       required division}) async {
     final Database database = await DatabaseService().getDataBase();
-    print("Update team: $teamID");
+ 
     return await database.update(
         teamTableName,
         {
+          'teamName': teamName,
           'city': city,
           'homecourt': homecourt,
           'division': division,
@@ -80,7 +86,7 @@ class TeamDb {
         whereArgs: [teamID]);
   }
 
-  Future<int> deleteTeam(String teamID) async {
+  Future<int> deleteTeam(int teamID) async {
     final Database database = await DatabaseService().getDataBase();
     return await database
         .rawDelete('DELETE FROM $teamTableName WHERE teamID = ?', [teamID]);

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:my_nba/data/team_db.dart';
+import 'package:my_nba/data/player_db.dart';
 import 'package:my_nba/models/team_model.dart';
+import 'package:my_nba/models/player_model.dart';
 import 'package:my_nba/pages/team_pages/teams_page.dart';
 
 class TeamPage extends StatefulWidget {
@@ -16,9 +18,11 @@ class _TeamPageState extends State<TeamPage> {
   late TextEditingController cityController;
   late TextEditingController homecourtController;
   late TextEditingController divisionController;
-  late TextEditingController teamIdController;
+  late TextEditingController teamNameController;
 
-  TeamDb db = TeamDb();
+  TeamDb teamsDb = TeamDb();
+  PlayerDb playersDb = PlayerDb();
+  Future<List<Player>>? teamPlayers;
 
   String teamName = "";
   String city = '';
@@ -29,22 +33,29 @@ class _TeamPageState extends State<TeamPage> {
   void initState() {
     super.initState();
     // Initialize text controllers with the team's current information
-    teamIdController = TextEditingController(text: widget.team.teamID);
+    teamNameController = TextEditingController(text: widget.team.teamName);
     cityController = TextEditingController(text: widget.team.city);
     homecourtController = TextEditingController(text: widget.team.homecourt);
     divisionController = TextEditingController(text: widget.team.division);
 
     // Initialize the team information
-    teamName = widget.team.teamID;
+    teamName = widget.team.teamName;
     city = widget.team.city;
     homecourt = widget.team.homecourt;
     division = widget.team.division;
+    fetchTeamPlayers();
+  }
+
+  void fetchTeamPlayers() {
+    setState(() {
+      teamPlayers = playersDb.fetchPlayerByTeam(widget.team.teamName);
+    });
   }
 
   @override
   void dispose() {
     // Clean up the controller when the widget is disposed.
-    teamIdController.dispose();
+    teamNameController.dispose();
     cityController.dispose();
     homecourtController.dispose();
     divisionController.dispose();
@@ -54,40 +65,79 @@ class _TeamPageState extends State<TeamPage> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false, // Remove the debug banner
-      home: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.black,
-          title: const Text('Team Details'),
-          actions: [
-            IconButton(
-              icon: const Icon(Icons.arrow_back),
-              onPressed: () {
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) => const TeamsPage()),
-                );
-              },
-            ),
-            IconButton(
-              icon: const Icon(Icons.edit),
-              onPressed: () {
-                _showEditDialog(context);
-              },
-            ),
-          ],
-        ),
-        body: ListView(
-          padding: const EdgeInsets.all(16.0),
-          children: <Widget>[
-            _buildDetailRow('Team Name', teamName),
-            _buildDetailRow('City', widget.team.city),
-            _buildDetailRow('Homecourt', widget.team.homecourt),
-            _buildDetailRow('Division', widget.team.division),
-          ],
-        ),
-      ),
-    );
+        debugShowCheckedModeBanner: false, // Remove the debug banner
+        home: Scaffold(
+          appBar: AppBar(
+            backgroundColor: Colors.black,
+            title: const Text('Team Details'),
+            actions: [
+              IconButton(
+                icon: const Icon(Icons.arrow_back),
+                onPressed: () {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (context) => const TeamsPage()),
+                  );
+                },
+              ),
+              IconButton(
+                icon: const Icon(Icons.edit),
+                onPressed: () {
+                  _showEditDialog(context);
+                },
+              ),
+            ],
+          ),
+          body: ListView(
+            padding: const EdgeInsets.all(16.0),
+            children: <Widget>[
+              _buildDetailRow('Team Name', teamName),
+              _buildDetailRow('City', widget.team.city),
+              _buildDetailRow('Homecourt', widget.team.homecourt),
+              _buildDetailRow('Division', widget.team.division),
+              const Divider(), // Add a divider for visual separation
+              // Players section
+              const Padding(
+                padding: EdgeInsets.all(16.0),
+                child: Text(
+                  'Players',
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              Expanded(
+                child: FutureBuilder<List<Player>>(
+                  future: teamPlayers,
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const CircularProgressIndicator();
+                    } else if (snapshot.hasError) {
+                      return Text('Error: ${snapshot.error}');
+                    } else {
+                      // Display the list of players
+                      List<Player>? players = snapshot.data;
+                      return ListView.builder(
+                        shrinkWrap: true, // Add this line
+                        itemCount: players?.length ?? 0,
+                        itemBuilder: (context, index) {
+                          return ListTile(
+                            title: Text(
+                              '${players?[index].firstName} ${players![index].lastName}',
+                            ),
+                            subtitle:
+                                Text('Position: ${players[index].position}'),
+                          );
+                        },
+                      );
+                    }
+                  },
+                ),
+              ),
+            ],
+          ),
+        ));
   }
 
   Widget _buildDetailRow(String label, String value) {
@@ -123,7 +173,7 @@ class _TeamPageState extends State<TeamPage> {
           content: SingleChildScrollView(
             child: Column(
               children: [
-                _buildTextField('Team Name', teamIdController),
+                _buildTextField('Team Name', teamNameController),
                 _buildTextField('City', cityController),
                 _buildTextField('Homecourt', homecourtController),
                 _buildTextField('Division', divisionController),
@@ -174,19 +224,23 @@ class _TeamPageState extends State<TeamPage> {
   }
 
   void _deleteTeam() {
-    db.deleteTeam(widget.team.teamID);
+    teamsDb.deleteTeam(widget.team.teamID);
   }
 
   void _updateTeamInformation() {
     // Save the updated team information
     setState(() {
-      teamName = teamIdController.text;
+      teamName = teamNameController.text;
       city = cityController.text;
       homecourt = homecourtController.text;
       division = divisionController.text;
     });
 
-    db.updateTeam(
-        teamID: teamName, city: city, homecourt: homecourt, division: division);
+    teamsDb.updateTeam(
+        teamID: widget.team.teamID,
+        teamName: teamName,
+        city: city,
+        homecourt: homecourt,
+        division: division);
   }
 }

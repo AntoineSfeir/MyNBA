@@ -1,5 +1,7 @@
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:my_nba/data/team_db.dart';
+
 
 class CreateTeamPage extends StatefulWidget {
   const CreateTeamPage({super.key});
@@ -11,7 +13,7 @@ class CreateTeamPage extends StatefulWidget {
 class _CreateTeamPageState extends State<CreateTeamPage> {
   TeamDb db = TeamDb();
   final _formKey = GlobalKey<FormState>();
-  final TextEditingController _teamIDController = TextEditingController();
+  final TextEditingController _teamNameController = TextEditingController();
   final TextEditingController _cityController = TextEditingController();
   final TextEditingController _homecourtController = TextEditingController();
   final TextEditingController _divisionController = TextEditingController();
@@ -29,7 +31,7 @@ class _CreateTeamPageState extends State<CreateTeamPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _buildTextField('Team ID', _teamIDController),
+              _buildTextField('Team Name', _teamNameController),
               _buildTextField('City', _cityController),
               _buildTextField('Homecourt', _homecourtController),
               _buildTextField('Division', _divisionController),
@@ -66,12 +68,19 @@ class _CreateTeamPageState extends State<CreateTeamPage> {
   }
 
   void _saveTeam() {
+    int teamID = Random().nextInt(10000);
+    String teamName = _teamNameController.text;
+    String city = _cityController.text;
+    String homecourt = _homecourtController.text;
+    String division = _divisionController.text;
+
     if (_formKey.currentState!.validate()) {
       db.insertTeam(
-          teamID: _teamIDController.text,
-          city: _cityController.text,
-          homecourt: _homecourtController.text,
-          division: _divisionController.text);
+          teamID: teamID,
+          teamName: teamName,
+          city: city,
+          homecourt: homecourt,
+          division: division);
       Navigator.pop(context);
     }
   }

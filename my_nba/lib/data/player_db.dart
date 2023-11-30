@@ -117,6 +117,13 @@ class PlayerDb {
     return Player.fromSqfliteDatbase(player.first);
   }
 
+  Future<List<Player>> fetchPlayerByTeam(String team) async {
+    final Database database = await DatabaseService().getDataBase();
+    final players = await database
+        .rawQuery('SELECT * FROM $playerTableName WHERE teamID = ?', [team]);
+    return players.map((player) => Player.fromSqfliteDatbase(player)).toList();
+  }
+
   Future<int> updatePlayer(
       {required playerID,
       required firstName,

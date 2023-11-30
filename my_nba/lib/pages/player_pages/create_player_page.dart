@@ -64,7 +64,7 @@ class _CreatePlayerPageState extends State<CreatePlayerPage> {
 
   void _savePlayer() {
     // Generate a random playerID using Dart's Random class
-    int playerID = Random().nextInt(1000000); // Adjust the range based on your requirements
+    int playerID = Random().nextInt(10000); // Adjust the range based on your requirements
 
     // Get other player details from controllers
     String firstName = firstNameController.text;
