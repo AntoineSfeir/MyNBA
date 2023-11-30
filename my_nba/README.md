@@ -14,7 +14,17 @@ Hopefully this works, the last resort if you are still having problems is it mig
 
 ## TEST QUERIES: 
 Located in my_nba/testQueries.session.sql also in the report.
-Click the red button on the bottom right of the homepage to reload the database!!
+The database in vscode is separate from the one in the app for some reason, so the steps are different.
+
+To run the queries in the app:
+- Open the app
+- Click the red button on the bottom right of the homepage to reload the database!!
+  
+To run the queries in vscode:
+- Install SQLTools and SQLlite necessary extensions
+- Connect to the database at my_nba/lib/assets/my_nba.db
+- Open my_nba/lib/assets/database_dump.sql
+- At the top, click "run on active connection" to load the database
 
 All other relevant information and documentation regarding how to set up the application given our code can be found in the links below. 
 
