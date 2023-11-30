@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:my_nba/data/game_db.dart';
 import 'package:my_nba/data/score_db.dart';
 import 'package:my_nba/models/game_model.dart';
+import 'package:my_nba/models/score_model.dart';
 import 'package:my_nba/pages/games_page/games_page.dart';
 import 'package:my_nba/data/player_db.dart'; // Replace with your actual import
 import 'package:my_nba/models/player_model.dart'; // Replace with your actual import
@@ -34,6 +35,10 @@ class _GamePageState extends State<GamePage> {
 
   Future<List<Player>>? homeTeamPlayers;
   Future<List<Player>>? awayTeamPlayers;
+
+  Future<Score>? playerScores;
+
+  int playerID = 0;
 
   @override
   void initState() {
@@ -167,35 +172,57 @@ class _GamePageState extends State<GamePage> {
     );
   }
 
- Widget _buildPlayerList(String teamID, Future<List<Player>>? players) {
-  return FutureBuilder<List<Player>>(
-    future: players,
-    builder: (context, snapshot) {
-      if (snapshot.connectionState == ConnectionState.waiting) {
-        return CircularProgressIndicator();
-      } else if (snapshot.hasError) {
-        return Text('Error: ${snapshot.error}');
-      } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-        return Text('No players available.');
-      } else {
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: snapshot.data!.map((player) {
-            return _buildPlayerItem(player);
-          }).toList(),
-        );
-      }
-    },
-  );
-}
-
+  Widget _buildPlayerList(String teamID, Future<List<Player>>? players) {
+    return FutureBuilder<List<Player>>(
+      future: players,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const CircularProgressIndicator();
+        } else if (snapshot.hasError) {
+          return Text('Error: ${snapshot.error}');
+        } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+          return const Text('No players available.');
+        } else {
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: snapshot.data!.map((player) {
+              return _buildPlayerItem(player);
+            }).toList(),
+          );
+        }
+      },
+    );
+  }
 
   Widget _buildPlayerItem(Player player) {
-    return ListTile(
-      title: Text('${player.firstName} ${player.lastName}'),
-      subtitle:
-          Text('Position: ${player.position}, Jersey: ${player.jerseyNumber}'),
+    return FutureBuilder<Score?>(
+      future: fetchScorePlayers(player.playerID),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return CircularProgressIndicator();
+        } else if (snapshot.hasError) {
+          return Text('Error: ${snapshot.error}');
+        } else {
+          Score? playerScore = snapshot.data;
+
+          return ListTile(
+            title: Text('${player.firstName} ${player.lastName}'),
+            subtitle: playerScore != null
+                ? Text(
+                    'Position: ${player.position}, Jersey: ${player.jerseyNumber}, Score: ${playerScore.pointsScored}',
+                  )
+                : Text(
+                    'Position: ${player.position}, Jersey: ${player.jerseyNumber}, Score: No score available.',
+                  ),
+          );
+        }
+      },
     );
+  }
+
+  Future<Score?> fetchScorePlayers(int playerID) async {
+    Score scores = await scoreDB.fetchScoreByIDs(playerID, widget.game.gameID);
+    return scores;
   }
 
   void _showEditDialog(BuildContext context) {
@@ -256,8 +283,6 @@ class _GamePageState extends State<GamePage> {
       ),
     );
   }
-
-  
 
   void _deleteGame() {
     gameDB.deleteGame(widget.game.gameID);
