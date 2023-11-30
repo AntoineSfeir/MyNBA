@@ -12,12 +12,11 @@ Then try running again.
 
 Hopefully this works, the last resort if you are still having problems is it might have to be run from xcode on mac by right clicking the macos folder and clicking "Open in Xcode" with all target macos deployment targets set to 10.14 in general.
 
-For all other relevant information and documentation regarding how to set up the application given our code can be found in the links below. 
-
 ## TEST QUERIES: 
 located in my_nba/testQueries.session.sql also in the report
 Click the red button on the bottom right of the homepage to reload the database!!
 
+All other relevant information and documentation regarding how to set up the application given our code can be found in the links below. 
 
 ## Setup links
 
