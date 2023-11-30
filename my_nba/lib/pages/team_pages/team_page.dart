@@ -65,84 +65,127 @@ class _TeamPageState extends State<TeamPage> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        debugShowCheckedModeBanner: false, // Remove the debug banner
-        home: Scaffold(
-          appBar: AppBar(
-            backgroundColor: Colors.black,
-            title: const Text('Team Details'),
-            actions: [
-              IconButton(
-                icon: const Icon(Icons.arrow_back),
-                onPressed: () {
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(builder: (context) => const TeamsPage()),
-                  );
-                },
-              ),
-              IconButton(
-                icon: const Icon(Icons.edit),
-                onPressed: () {
-                  _showEditDialog(context);
-                },
-              ),
-            ],
-          ),
-          body: ListView(
-            padding: const EdgeInsets.all(16.0),
-            children: <Widget>[
-              _buildDetailRow('Team Name', teamName),
-              _buildDetailRow('City', widget.team.city),
-              _buildDetailRow('Homecourt', widget.team.homecourt),
-              _buildDetailRow('Division', widget.team.division),
-              const Divider(), // Add a divider for visual separation
-              // Players section
-              const Padding(
-                padding: EdgeInsets.all(16.0),
-                child: Text(
-                  'Players',
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
+      debugShowCheckedModeBanner: false,
+      home: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.black,
+          title: const Text('Team Details'),
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.arrow_back),
+              onPressed: () {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => const TeamsPage()),
+                );
+              },
+            ),
+            IconButton(
+              icon: const Icon(Icons.edit),
+              onPressed: () {
+                _showEditDialog(context);
+              },
+            ),
+          ],
+        ),
+        body: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            const Padding(
+              padding: EdgeInsets.all(16.0),
+              child: Text(
+                'Team Information',
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
-              Expanded(
-                child: FutureBuilder<List<Player>>(
-                  future: teamPlayers,
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const CircularProgressIndicator();
-                    } else if (snapshot.hasError) {
-                      return Text('Error: ${snapshot.error}');
-                    } else {
-                      // Display the list of players
-                      List<Player>? players = snapshot.data;
-                      return ListView.builder(
-                        shrinkWrap: true, // Add this line
-                        itemCount: players?.length ?? 0,
-                        itemBuilder: (context, index) {
-                          return ListTile(
-                            title: Text(
-                              '${players?[index].firstName} ${players![index].lastName}',
+            ),
+            _buildDetailRow('Team Name', teamName),
+            _buildDetailRow('City', widget.team.city),
+            _buildDetailRow('Homecourt', widget.team.homecourt),
+            _buildDetailRow('Division', widget.team.division),
+            const Divider(),
+            const Padding(
+              padding: EdgeInsets.all(16.0),
+              child: Text(
+                'Players',
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            Expanded(
+              child: FutureBuilder<List<Player>>(
+                future: teamPlayers,
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(child: CircularProgressIndicator());
+                  } else if (snapshot.hasError) {
+                    return Center(child: Text('Error: ${snapshot.error}'));
+                  } else {
+                    List<Player>? players = snapshot.data;
+                    return ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: players?.length ?? 0,
+                      itemBuilder: (context, index) {
+                        return Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Card(
+                            elevation: 3,
+                            child: ListTile(
+                              title: Text(
+                                '${players?[index].firstName} ${players![index].lastName}',
+                                style: const TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              subtitle: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Jersey Number: ${players[index].jerseyNumber}',
+                                    style: const TextStyle(
+                                      fontSize: 16,
+                                      color: Colors.blue,
+                                    ),
+                                  ),
+                                  Text(
+                                    'Position: ${players[index].position}',
+                                    style: const TextStyle(
+                                      fontSize: 16,
+                                      color: Colors.green,
+                                    ),
+                                  ),
+                                  Text(
+                                    'Height: ${players[index].height}',
+                                    style: const TextStyle(
+                                      fontSize: 16,
+                                      color: Colors.red,
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
-                            subtitle:
-                                Text('Position: ${players[index].position}'),
-                          );
-                        },
-                      );
-                    }
-                  },
-                ),
+                          ),
+                        );
+                      },
+                    );
+                  }
+                },
               ),
-            ],
-          ),
-        ));
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   Widget _buildDetailRow(String label, String value) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -199,7 +242,6 @@ class _TeamPageState extends State<TeamPage> {
             ),
             TextButton(
               onPressed: () {
-                // Save updated team information
                 _updateTeamInformation();
                 Navigator.of(context).pop();
               },
@@ -213,7 +255,7 @@ class _TeamPageState extends State<TeamPage> {
 
   Widget _buildTextField(String label, TextEditingController controller) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
       child: TextField(
         decoration: InputDecoration(
           labelText: label,
@@ -228,7 +270,6 @@ class _TeamPageState extends State<TeamPage> {
   }
 
   void _updateTeamInformation() {
-    // Save the updated team information
     setState(() {
       teamName = teamNameController.text;
       city = cityController.text;
@@ -237,10 +278,11 @@ class _TeamPageState extends State<TeamPage> {
     });
 
     teamsDb.updateTeam(
-        teamID: widget.team.teamID,
-        teamName: teamName,
-        city: city,
-        homecourt: homecourt,
-        division: division);
+      teamID: widget.team.teamID,
+      teamName: teamName,
+      city: city,
+      homecourt: homecourt,
+      division: division,
+    );
   }
 }
