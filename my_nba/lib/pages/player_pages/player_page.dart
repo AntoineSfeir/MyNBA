@@ -212,13 +212,5 @@ class _PlayerPageState extends State<PlayerPage> {
       position: positionController.text,
       jerseyNumber: int.parse(jerseyNumberController.text),
     );
-
-    print('Updated Information:');
-    print('First Name: ${firstNameController.text}');
-    print('Last Name: ${lastNameController.text}');
-    print('Height: ${heightController.text}');
-    print('Team: ${teamController.text}');
-    print('Position: ${positionController.text}');
-    print('Jersey Number: ${jerseyNumberController.text}');
   }
 }

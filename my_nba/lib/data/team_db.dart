@@ -54,7 +54,6 @@ class TeamDb {
     final Database database = await DatabaseService().getDataBase();
 
     final teams = await database.rawQuery('SELECT * FROM $teamTableName');
-    print('Teams from database: $teams');
     return teams.map((team) => Team.fromSqfliteDatbase(team)).toList();
   }
 
