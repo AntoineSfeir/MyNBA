@@ -69,10 +69,10 @@ class _TeamPageState extends State<TeamPage> {
       home: Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.black,
-          title: const Text('Team Details'),
+          title: const Text('Team Details',style: TextStyle(color: Colors.white),),
           actions: [
             IconButton(
-              icon: const Icon(Icons.arrow_back),
+              icon: const Icon(Icons.arrow_back, color: Colors.white),
               onPressed: () {
                 Navigator.pushReplacement(
                   context,
@@ -81,7 +81,7 @@ class _TeamPageState extends State<TeamPage> {
               },
             ),
             IconButton(
-              icon: const Icon(Icons.edit),
+              icon: const Icon(Icons.edit, color: Colors.white),
               onPressed: () {
                 _showEditDialog(context);
               },

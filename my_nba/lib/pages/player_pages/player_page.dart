@@ -68,10 +68,10 @@ class _PlayerPageState extends State<PlayerPage> {
       home: Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.black,
-          title: const Text('Player Details'),
+          title: const Text('Player Details',style: TextStyle(color: Colors.white),),
           actions: [
             IconButton(
-              icon: const Icon(Icons.arrow_back),
+              icon: const Icon(Icons.arrow_back,color: Colors.white),
               onPressed: () {
                 Navigator.pushReplacement(
                   context,
@@ -80,7 +80,7 @@ class _PlayerPageState extends State<PlayerPage> {
               },
             ),
             IconButton(
-              icon: const Icon(Icons.edit),
+              icon: const Icon(Icons.edit, color: Colors.white),
               onPressed: () {
                 _showEditDialog(context);
               },
