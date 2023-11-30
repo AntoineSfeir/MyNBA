@@ -6,6 +6,7 @@ class CreateTeamPage extends StatefulWidget {
   const CreateTeamPage({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _CreateTeamPageState createState() => _CreateTeamPageState();
 }
 

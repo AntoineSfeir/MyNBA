@@ -64,7 +64,7 @@ class _TeamsPageState extends State<TeamsPage> {
                     centerTitle: true,
                     collapseMode: CollapseMode.parallax,
                     title: Container(
-                      padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0), // Adjust padding as needed
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0), // Adjust padding as needed
                       decoration: BoxDecoration(
                         color: Colors.black.withOpacity(0.9),
                         borderRadius: BorderRadius.circular(15.0),

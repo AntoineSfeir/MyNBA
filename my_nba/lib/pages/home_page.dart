@@ -166,7 +166,7 @@ class _HomePageState extends State<HomePage> {
                 if (query.isNotEmpty) {
                   _sqlConsole.runQuery(query).then((value) {
                     results.add(value);
-                    _queryResult = results.join('\n' + '-' * 40 + '\n');
+                    _queryResult = results.join('\n${'-' * 40}\n');
                   });
                 }
               }

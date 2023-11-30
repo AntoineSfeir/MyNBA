@@ -280,7 +280,7 @@ class _GamePageState extends State<GamePage> {
           return ListTile(
             title: Text('${player.firstName} ${player.lastName}'),
             subtitle: Text(
-              'Position: ${player.position}, Jersey Number: ${player.jerseyNumber}, Score: ${score}',
+              'Position: ${player.position}, Jersey Number: ${player.jerseyNumber}, Score: $score',
             ),
             trailing: Row(
               mainAxisSize: MainAxisSize.min,
