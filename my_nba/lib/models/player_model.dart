@@ -3,7 +3,7 @@ class Player {
   final String firstName;
   final String lastName;
   final int height;
-  final String teamID;
+  final String teamName;
   final String position;
   final int jerseyNumber;
 
@@ -12,7 +12,7 @@ class Player {
       required this.firstName,
       required this.lastName,
       required this.height,
-      required this.teamID,
+      required this.teamName,
       required this.position,
       required this.jerseyNumber});
 
@@ -22,7 +22,7 @@ class Player {
       firstName: data['firstName'],
       lastName: data['lastName'],
       height: int.parse(data['height'].toString()), // Convert to int
-      teamID: data['teamID'],
+      teamName: data['teamName'],
       position: data['position'],
       jerseyNumber: data['jerseyNumber'],
     );
@@ -34,7 +34,7 @@ class Player {
     String? firstName,
     String? lastName,
     int? height,
-    String? teamID,
+    String? teamName,
     String? position,
     int? jerseyNumber,
   }) {
@@ -43,7 +43,7 @@ class Player {
       firstName: firstName ?? this.firstName,
       lastName: lastName ?? this.lastName,
       height: height ?? this.height,
-      teamID: teamID ?? this.teamID,
+      teamName: teamName ?? this.teamName,
       position: position ?? this.position,
       jerseyNumber: jerseyNumber ?? this.jerseyNumber,
     );
