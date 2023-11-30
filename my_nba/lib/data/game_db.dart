@@ -12,9 +12,8 @@ class GameDb {
         team1ID VARCHAR(50),
         team2ID VARCHAR(50),
         court VARCHAR(50),
-        date DATE,
-        time TIME
-
+        date TEXT,
+        time Text
       )
       ''');
 

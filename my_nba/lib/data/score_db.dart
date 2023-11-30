@@ -2,7 +2,7 @@ import 'package:sqflite/sqflite.dart';
 import 'package:my_nba/models/score_model.dart';
 import 'package:my_nba/data/database_service.dart';
 
-class ScoreDb {
+class ScoreDB {
   final scoreTableName = "scores";
 
   Future<void> createScoreTable(Database database) async {

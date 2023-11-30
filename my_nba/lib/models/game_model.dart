@@ -5,8 +5,8 @@ class Game{
   final String team1ID;
   final String team2ID;
   final String court;
-  final DateTime date;
-  final DateTime time;
+  final String date;
+  final String time;
 
   Game(
       {required this.gameID,
