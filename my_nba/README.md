@@ -14,6 +14,7 @@ Hopefully this works, the last resort if you are still having problems is it mig
 
 For all other relevant information and documentation regarding how to set up the application given our code can be found in the links below. 
 
+TEST QUERIES: my_nba/testQueries.session.sql
 
 ## Getting Started
 
